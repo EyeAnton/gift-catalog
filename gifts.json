@@ -40,6 +40,31 @@
    "sound": "assets/anim640/sep__bear_3d.mp3"
   },
   {
+   "key": "sym__bear_waving",
+   "id": "bear_waving",
+   "group": "symbols",
+   "name": "Waving Bear",
+   "romantic": false,
+   "still": "assets/thumbs/sym__bear_waving.webp",
+   "preview_webm": null,
+   "preview_webp_safari": null,
+   "full_webm": null,
+   "sound": null
+  },
+  {
+   "key": "wed__wedding_cake",
+   "id": "wedding_cake",
+   "group": "wedding",
+   "name": "Wedding Cake",
+   "romantic": true,
+   "still": "assets/thumbs/wed__wedding_cake.webp",
+   "preview_webm": "assets/anim/wed__wedding_cake.webm",
+   "preview_webp_safari": "assets/anim/wed__wedding_cake.webp",
+   "full_webm": "assets/anim640/wed__wedding_cake.webm",
+   "full_mov_safari": "assets/anim640/wed__wedding_cake.mov",
+   "sound": "assets/anim640/wed__wedding_cake.mp3"
+  },
+  {
    "key": "sep__bear_airplane_3d",
    "id": "bear_airplane_3d",
    "group": "catalog",
@@ -92,6 +117,18 @@
    "sound": "assets/anim640/sep__chocolate_ai_3d.mp3"
   },
   {
+   "key": "sym__bed",
+   "id": "bed",
+   "group": "symbols",
+   "name": "Cozy Bed",
+   "romantic": false,
+   "still": "assets/thumbs/sym__bed.webp",
+   "preview_webm": null,
+   "preview_webp_safari": null,
+   "full_webm": null,
+   "sound": null
+  },
+  {
    "key": "sep__coctail_ai_3d",
    "id": "coctail_ai_3d",
    "group": "catalog",
@@ -103,6 +140,19 @@
    "full_webm": "assets/anim640/sep__coctail_ai_3d.webm",
    "full_mov_safari": "assets/anim640/sep__coctail_ai_3d.mov",
    "sound": "assets/anim640/sep__coctail_ai_3d.mp3"
+  },
+  {
+   "key": "wed__wedding_car",
+   "id": "wedding_car",
+   "group": "wedding",
+   "name": "Wedding Car",
+   "romantic": true,
+   "still": "assets/thumbs/wed__wedding_car.webp",
+   "preview_webm": "assets/anim/wed__wedding_car.webm",
+   "preview_webp_safari": "assets/anim/wed__wedding_car.webp",
+   "full_webm": "assets/anim640/wed__wedding_car.webm",
+   "full_mov_safari": "assets/anim640/wed__wedding_car.mov",
+   "sound": "assets/anim640/wed__wedding_car.mp3"
   },
   {
    "key": "sep__coffeeAndCupcake_3d",
@@ -157,6 +207,18 @@
    "sound": "assets/anim640/sep__delicious_lollipop_colored_3d.mp3"
   },
   {
+   "key": "sym__blanket",
+   "id": "blanket",
+   "group": "symbols",
+   "name": "Plaid Blanket",
+   "romantic": false,
+   "still": "assets/thumbs/sym__blanket.webp",
+   "preview_webm": null,
+   "preview_webp_safari": null,
+   "full_webm": null,
+   "sound": null
+  },
+  {
    "key": "sep__diamond_3d",
    "id": "diamond_3d",
    "group": "catalog",
@@ -168,6 +230,19 @@
    "full_webm": "assets/anim640/sep__diamond_3d.webm",
    "full_mov_safari": "assets/anim640/sep__diamond_3d.mov",
    "sound": "assets/anim640/sep__diamond_3d.mp3"
+  },
+  {
+   "key": "wed__wedding_church",
+   "id": "wedding_church",
+   "group": "wedding",
+   "name": "Chapel",
+   "romantic": true,
+   "still": "assets/thumbs/wed__wedding_church.webp",
+   "preview_webm": "assets/anim/wed__wedding_church.webm",
+   "preview_webp_safari": "assets/anim/wed__wedding_church.webp",
+   "full_webm": "assets/anim640/wed__wedding_church.webm",
+   "full_mov_safari": "assets/anim640/wed__wedding_church.mov",
+   "sound": "assets/anim640/wed__wedding_church.mp3"
   },
   {
    "key": "sep__game_3d",
@@ -209,6 +284,18 @@
    "sound": "assets/anim640/sep__glass_heart_3d.mp3"
   },
   {
+   "key": "sym__broken_heart",
+   "id": "broken_heart",
+   "group": "symbols",
+   "name": "Mended Heart",
+   "romantic": false,
+   "still": "assets/thumbs/sym__broken_heart.webp",
+   "preview_webm": null,
+   "preview_webp_safari": null,
+   "full_webm": null,
+   "sound": null
+  },
+  {
    "key": "sep__heart_earth_3d",
    "id": "heart_earth_3d",
    "group": "catalog",
@@ -233,6 +320,19 @@
    "full_webm": "assets/anim640/sep__heart_simple_ai_3d.webm",
    "full_mov_safari": "assets/anim640/sep__heart_simple_ai_3d.mov",
    "sound": "assets/anim640/sep__heart_simple_ai_3d.mp3"
+  },
+  {
+   "key": "wed__wedding_dress",
+   "id": "wedding_dress",
+   "group": "wedding",
+   "name": "Wedding Dress",
+   "romantic": true,
+   "still": "assets/thumbs/wed__wedding_dress.webp",
+   "preview_webm": "assets/anim/wed__wedding_dress.webm",
+   "preview_webp_safari": "assets/anim/wed__wedding_dress.webp",
+   "full_webm": "assets/anim640/wed__wedding_dress.webm",
+   "full_mov_safari": "assets/anim640/wed__wedding_dress.mov",
+   "sound": "assets/anim640/wed__wedding_dress.mp3"
   },
   {
    "key": "sep__honey_ai_3d",
@@ -261,6 +361,18 @@
    "sound": "assets/anim640/sep__icecream_3d.mp3"
   },
   {
+   "key": "sym__cute_sun",
+   "id": "cute_sun",
+   "group": "symbols",
+   "name": "Sunshine",
+   "romantic": false,
+   "still": "assets/thumbs/sym__cute_sun.webp",
+   "preview_webm": null,
+   "preview_webp_safari": null,
+   "full_webm": null,
+   "sound": null
+  },
+  {
    "key": "sep__kiss_mail_3d",
    "id": "kiss_mail_3d",
    "group": "catalog",
@@ -287,6 +399,19 @@
    "sound": "assets/anim640/sep__love_book_3d.mp3"
   },
   {
+   "key": "wed__wedding_flowers",
+   "id": "wedding_flowers",
+   "group": "wedding",
+   "name": "Bridal Bouquet",
+   "romantic": true,
+   "still": "assets/thumbs/wed__wedding_flowers.webp",
+   "preview_webm": "assets/anim/wed__wedding_flowers.webm",
+   "preview_webp_safari": "assets/anim/wed__wedding_flowers.webp",
+   "full_webm": "assets/anim640/wed__wedding_flowers.webm",
+   "full_mov_safari": "assets/anim640/wed__wedding_flowers.mov",
+   "sound": "assets/anim640/wed__wedding_flowers.mp3"
+  },
+  {
    "key": "sep__male_ring_ai_3d",
    "id": "male_ring_ai_3d",
    "group": "catalog",
@@ -311,6 +436,18 @@
    "full_webm": "assets/anim640/sep__merry_go_round.webm",
    "full_mov_safari": "assets/anim640/sep__merry_go_round.mov",
    "sound": "assets/anim640/sep__merry_go_round.mp3"
+  },
+  {
+   "key": "sym__dove",
+   "id": "dove",
+   "group": "symbols",
+   "name": "Dove",
+   "romantic": true,
+   "still": "assets/thumbs/sym__dove.webp",
+   "preview_webm": null,
+   "preview_webp_safari": null,
+   "full_webm": null,
+   "sound": null
   },
   {
    "key": "sep__muffin_ai_3d",
@@ -352,6 +489,19 @@
    "sound": "assets/anim640/sep__paris_ticket.mp3"
   },
   {
+   "key": "wed__wedding_jacket",
+   "id": "wedding_jacket",
+   "group": "wedding",
+   "name": "Tuxedo",
+   "romantic": true,
+   "still": "assets/thumbs/wed__wedding_jacket.webp",
+   "preview_webm": "assets/anim/wed__wedding_jacket.webm",
+   "preview_webp_safari": "assets/anim/wed__wedding_jacket.webp",
+   "full_webm": "assets/anim640/wed__wedding_jacket.webm",
+   "full_mov_safari": "assets/anim640/wed__wedding_jacket.mov",
+   "sound": "assets/anim640/wed__wedding_jacket.mp3"
+  },
+  {
    "key": "sep__picnic_bon_3d",
    "id": "picnic_bon_3d",
    "group": "catalog",
@@ -363,6 +513,18 @@
    "full_webm": "assets/anim640/sep__picnic_bon_3d.webm",
    "full_mov_safari": "assets/anim640/sep__picnic_bon_3d.mov",
    "sound": "assets/anim640/sep__picnic_bon_3d.mp3"
+  },
+  {
+   "key": "sym__lotus",
+   "id": "lotus",
+   "group": "symbols",
+   "name": "Lotus",
+   "romantic": true,
+   "still": "assets/thumbs/sym__lotus.webp",
+   "preview_webm": null,
+   "preview_webp_safari": null,
+   "full_webm": null,
+   "sound": null
   },
   {
    "key": "sep__plane_fluffy",
@@ -417,6 +579,19 @@
    "sound": "assets/anim640/sep__roses2_bon_3d.mp3"
   },
   {
+   "key": "wed__wedding_kiss",
+   "id": "wedding_kiss",
+   "group": "wedding",
+   "name": "Kiss Under the Arch",
+   "romantic": true,
+   "still": "assets/thumbs/wed__wedding_kiss.webp",
+   "preview_webm": "assets/anim/wed__wedding_kiss.webm",
+   "preview_webp_safari": "assets/anim/wed__wedding_kiss.webp",
+   "full_webm": "assets/anim640/wed__wedding_kiss.webm",
+   "full_mov_safari": "assets/anim640/wed__wedding_kiss.mov",
+   "sound": "assets/anim640/wed__wedding_kiss.mp3"
+  },
+  {
    "key": "sep__sakura",
    "id": "sakura",
    "group": "catalog",
@@ -428,6 +603,18 @@
    "full_webm": "assets/anim640/sep__sakura.webm",
    "full_mov_safari": "assets/anim640/sep__sakura.mov",
    "sound": "assets/anim640/sep__sakura.mp3"
+  },
+  {
+   "key": "sym__moon",
+   "id": "moon",
+   "group": "symbols",
+   "name": "Moon",
+   "romantic": true,
+   "still": "assets/thumbs/sym__moon.webp",
+   "preview_webm": null,
+   "preview_webp_safari": null,
+   "full_webm": null,
+   "sound": null
   },
   {
    "key": "sep__shell_3d",
@@ -482,6 +669,31 @@
    "sound": "assets/anim640/sep__treasure_ai_3d.mp3"
   },
   {
+   "key": "wed__wedding_rings",
+   "id": "wedding_rings",
+   "group": "wedding",
+   "name": "Wedding Rings",
+   "romantic": true,
+   "still": "assets/thumbs/wed__wedding_rings.webp",
+   "preview_webm": "assets/anim/wed__wedding_rings.webm",
+   "preview_webp_safari": "assets/anim/wed__wedding_rings.webp",
+   "full_webm": "assets/anim640/wed__wedding_rings.webm",
+   "full_mov_safari": "assets/anim640/wed__wedding_rings.mov",
+   "sound": "assets/anim640/wed__wedding_rings.mp3"
+  },
+  {
+   "key": "sym__shield",
+   "id": "shield",
+   "group": "symbols",
+   "name": "Shield",
+   "romantic": false,
+   "still": "assets/thumbs/sym__shield.webp",
+   "preview_webm": null,
+   "preview_webp_safari": null,
+   "full_webm": null,
+   "sound": null
+  },
+  {
    "key": "sep__trumpet_bon_3d",
    "id": "trumpet_bon_3d",
    "group": "catalog",
@@ -506,218 +718,6 @@
    "full_webm": "assets/anim640/sep__yacht_3d.webm",
    "full_mov_safari": "assets/anim640/sep__yacht_3d.mov",
    "sound": "assets/anim640/sep__yacht_3d.mp3"
-  },
-  {
-   "key": "sym__bear_waving",
-   "id": "bear_waving",
-   "group": "symbols",
-   "name": "Waving Bear",
-   "romantic": false,
-   "still": "assets/thumbs/sym__bear_waving.webp",
-   "preview_webm": null,
-   "preview_webp_safari": null,
-   "full_webm": null,
-   "sound": null
-  },
-  {
-   "key": "sym__bed",
-   "id": "bed",
-   "group": "symbols",
-   "name": "Cozy Bed",
-   "romantic": false,
-   "still": "assets/thumbs/sym__bed.webp",
-   "preview_webm": null,
-   "preview_webp_safari": null,
-   "full_webm": null,
-   "sound": null
-  },
-  {
-   "key": "sym__blanket",
-   "id": "blanket",
-   "group": "symbols",
-   "name": "Plaid Blanket",
-   "romantic": false,
-   "still": "assets/thumbs/sym__blanket.webp",
-   "preview_webm": null,
-   "preview_webp_safari": null,
-   "full_webm": null,
-   "sound": null
-  },
-  {
-   "key": "sym__broken_heart",
-   "id": "broken_heart",
-   "group": "symbols",
-   "name": "Mended Heart",
-   "romantic": false,
-   "still": "assets/thumbs/sym__broken_heart.webp",
-   "preview_webm": null,
-   "preview_webp_safari": null,
-   "full_webm": null,
-   "sound": null
-  },
-  {
-   "key": "sym__cute_sun",
-   "id": "cute_sun",
-   "group": "symbols",
-   "name": "Sunshine",
-   "romantic": false,
-   "still": "assets/thumbs/sym__cute_sun.webp",
-   "preview_webm": null,
-   "preview_webp_safari": null,
-   "full_webm": null,
-   "sound": null
-  },
-  {
-   "key": "sym__dove",
-   "id": "dove",
-   "group": "symbols",
-   "name": "Dove",
-   "romantic": true,
-   "still": "assets/thumbs/sym__dove.webp",
-   "preview_webm": null,
-   "preview_webp_safari": null,
-   "full_webm": null,
-   "sound": null
-  },
-  {
-   "key": "sym__lotus",
-   "id": "lotus",
-   "group": "symbols",
-   "name": "Lotus",
-   "romantic": true,
-   "still": "assets/thumbs/sym__lotus.webp",
-   "preview_webm": null,
-   "preview_webp_safari": null,
-   "full_webm": null,
-   "sound": null
-  },
-  {
-   "key": "sym__moon",
-   "id": "moon",
-   "group": "symbols",
-   "name": "Moon",
-   "romantic": true,
-   "still": "assets/thumbs/sym__moon.webp",
-   "preview_webm": null,
-   "preview_webp_safari": null,
-   "full_webm": null,
-   "sound": null
-  },
-  {
-   "key": "sym__shield",
-   "id": "shield",
-   "group": "symbols",
-   "name": "Shield",
-   "romantic": false,
-   "still": "assets/thumbs/sym__shield.webp",
-   "preview_webm": null,
-   "preview_webp_safari": null,
-   "full_webm": null,
-   "sound": null
-  },
-  {
-   "key": "wed__wedding_cake",
-   "id": "wedding_cake",
-   "group": "wedding",
-   "name": "Wedding Cake",
-   "romantic": true,
-   "still": "assets/thumbs/wed__wedding_cake.webp",
-   "preview_webm": "assets/anim/wed__wedding_cake.webm",
-   "preview_webp_safari": "assets/anim/wed__wedding_cake.webp",
-   "full_webm": "assets/anim640/wed__wedding_cake.webm",
-   "full_mov_safari": "assets/anim640/wed__wedding_cake.mov",
-   "sound": "assets/anim640/wed__wedding_cake.mp3"
-  },
-  {
-   "key": "wed__wedding_car",
-   "id": "wedding_car",
-   "group": "wedding",
-   "name": "Wedding Car",
-   "romantic": true,
-   "still": "assets/thumbs/wed__wedding_car.webp",
-   "preview_webm": "assets/anim/wed__wedding_car.webm",
-   "preview_webp_safari": "assets/anim/wed__wedding_car.webp",
-   "full_webm": "assets/anim640/wed__wedding_car.webm",
-   "full_mov_safari": "assets/anim640/wed__wedding_car.mov",
-   "sound": "assets/anim640/wed__wedding_car.mp3"
-  },
-  {
-   "key": "wed__wedding_church",
-   "id": "wedding_church",
-   "group": "wedding",
-   "name": "Chapel",
-   "romantic": true,
-   "still": "assets/thumbs/wed__wedding_church.webp",
-   "preview_webm": "assets/anim/wed__wedding_church.webm",
-   "preview_webp_safari": "assets/anim/wed__wedding_church.webp",
-   "full_webm": "assets/anim640/wed__wedding_church.webm",
-   "full_mov_safari": "assets/anim640/wed__wedding_church.mov",
-   "sound": "assets/anim640/wed__wedding_church.mp3"
-  },
-  {
-   "key": "wed__wedding_dress",
-   "id": "wedding_dress",
-   "group": "wedding",
-   "name": "Wedding Dress",
-   "romantic": true,
-   "still": "assets/thumbs/wed__wedding_dress.webp",
-   "preview_webm": "assets/anim/wed__wedding_dress.webm",
-   "preview_webp_safari": "assets/anim/wed__wedding_dress.webp",
-   "full_webm": "assets/anim640/wed__wedding_dress.webm",
-   "full_mov_safari": "assets/anim640/wed__wedding_dress.mov",
-   "sound": "assets/anim640/wed__wedding_dress.mp3"
-  },
-  {
-   "key": "wed__wedding_flowers",
-   "id": "wedding_flowers",
-   "group": "wedding",
-   "name": "Bridal Bouquet",
-   "romantic": true,
-   "still": "assets/thumbs/wed__wedding_flowers.webp",
-   "preview_webm": "assets/anim/wed__wedding_flowers.webm",
-   "preview_webp_safari": "assets/anim/wed__wedding_flowers.webp",
-   "full_webm": "assets/anim640/wed__wedding_flowers.webm",
-   "full_mov_safari": "assets/anim640/wed__wedding_flowers.mov",
-   "sound": "assets/anim640/wed__wedding_flowers.mp3"
-  },
-  {
-   "key": "wed__wedding_jacket",
-   "id": "wedding_jacket",
-   "group": "wedding",
-   "name": "Tuxedo",
-   "romantic": true,
-   "still": "assets/thumbs/wed__wedding_jacket.webp",
-   "preview_webm": "assets/anim/wed__wedding_jacket.webm",
-   "preview_webp_safari": "assets/anim/wed__wedding_jacket.webp",
-   "full_webm": "assets/anim640/wed__wedding_jacket.webm",
-   "full_mov_safari": "assets/anim640/wed__wedding_jacket.mov",
-   "sound": "assets/anim640/wed__wedding_jacket.mp3"
-  },
-  {
-   "key": "wed__wedding_kiss",
-   "id": "wedding_kiss",
-   "group": "wedding",
-   "name": "Kiss Under the Arch",
-   "romantic": true,
-   "still": "assets/thumbs/wed__wedding_kiss.webp",
-   "preview_webm": "assets/anim/wed__wedding_kiss.webm",
-   "preview_webp_safari": "assets/anim/wed__wedding_kiss.webp",
-   "full_webm": "assets/anim640/wed__wedding_kiss.webm",
-   "full_mov_safari": "assets/anim640/wed__wedding_kiss.mov",
-   "sound": "assets/anim640/wed__wedding_kiss.mp3"
-  },
-  {
-   "key": "wed__wedding_rings",
-   "id": "wedding_rings",
-   "group": "wedding",
-   "name": "Wedding Rings",
-   "romantic": true,
-   "still": "assets/thumbs/wed__wedding_rings.webp",
-   "preview_webm": "assets/anim/wed__wedding_rings.webm",
-   "preview_webp_safari": "assets/anim/wed__wedding_rings.webp",
-   "full_webm": "assets/anim640/wed__wedding_rings.webm",
-   "full_mov_safari": "assets/anim640/wed__wedding_rings.mov",
-   "sound": "assets/anim640/wed__wedding_rings.mp3"
   }
  ]
 }

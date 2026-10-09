@@ -1,7 +1,6 @@
 (() => {
   "use strict";
 
-  const ORDER = ["wedding", "catalog", "symbols"];
   const SVG_NS = "http://www.w3.org/2000/svg";
   const FADE_MS = 350;
   const STATIC_SHOW_MS = 2600;
@@ -20,12 +19,12 @@
 
   const UI = {
     ru: {
-      back: "← Все проекты", portfolio: "Портфолио",
+      back: "← Портфолио",
       lede: "Анимированные 3D-подарки, которые люди отправляют друг другу в чате. Нажмите на подарок, чтобы увидеть, как он приходит.",
       foot: "Анимированные подарки играют со звуком.",
     },
     en: {
-      back: "← All projects", portfolio: "Portfolio",
+      back: "← Portfolio",
       lede: "Animated 3D gifts people send each other in a chat. Tap any gift to see it arrive.",
       foot: "Animated gifts play with sound.",
     },
@@ -57,8 +56,8 @@
   const $closeBtn = document.getElementById("closeBtn");
 
   Promise.all([
-    fetch("gifts.json").then((r) => r.json()),
-    fetch("silhouettes.json").then((r) => r.json()),
+    fetch("gifts.json?v=3").then((r) => r.json()),
+    fetch("silhouettes.json?v=3").then((r) => r.json()),
   ])
     .then(([gifts, silhouettes]) => render(gifts.items, silhouettes))
     .catch((err) => {
@@ -69,12 +68,9 @@
   /* ---------------- Grid ---------------- */
 
   function render(items, silhouettes) {
-    // One flat grid; ORDER only decides which gifts come first.
-    const rank = (g) => (ORDER.indexOf(g.group) + 1 || ORDER.length + 1);
+    // One catalog, one grid, in gifts.json order (groups are mixed there on purpose).
     const grid = el("div", "grid");
-    for (const gift of [...items].sort((a, b) => rank(a) - rank(b))) {
-      grid.append(card(gift, silhouettes[gift.key]));
-    }
+    for (const gift of items) grid.append(card(gift, silhouettes[gift.key]));
     $catalog.replaceChildren(grid);
     $catalog.removeAttribute("aria-busy");
   }

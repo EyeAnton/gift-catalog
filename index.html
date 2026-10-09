@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=3">
 </head>
 <body>
 
@@ -29,19 +29,14 @@
   </defs>
 </svg>
 
-<header class="top">
-  <a class="logo" href="/">Anton<span>.</span></a>
-  <nav class="top-nav">
-    <a href="/#work" data-i18n="back">← Все проекты</a>
+<header class="hero">
+  <div class="topline">
+    <a class="to-portfolio" href="/#work" data-i18n="back">← Портфолио</a>
     <button class="lang" id="lang" type="button" aria-label="Switch language">EN</button>
-  </nav>
-</header>
-
-<section class="hero">
-  <p class="crumbs"><a href="/" data-i18n="portfolio">Портфолио</a> <span>/</span> Virtual Gifts</p>
+  </div>
   <h1>Virtual Gifts</h1>
   <p class="lede" data-i18n="lede">Анимированные 3D-подарки, которые люди отправляют друг другу в чате. Нажмите на подарок, чтобы увидеть, как он приходит.</p>
-</section>
+</header>
 
 <main id="catalog" aria-busy="true"></main>
 
@@ -74,6 +69,6 @@
   <button class="close" id="closeBtn" aria-label="Close">×</button>
 </div>
 
-<script src="app.js"></script>
+<script src="app.js?v=3"></script>
 </body>
 </html>

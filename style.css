@@ -5,7 +5,6 @@
   --muted: #a59b90;
   --gold: #d8b878;
   --line: #2b2521;
-  --gold-soft: rgba(216, 184, 120, .14);
   --gutter: clamp(16px, 4vw, 48px);
   --serif: "Cormorant Garamond", Georgia, serif;
   --sans: Inter, -apple-system, "Helvetica Neue", Arial, sans-serif;
@@ -24,33 +23,17 @@ body.locked { overflow: hidden; }
 
 .defs { position: absolute; width: 0; height: 0; overflow: hidden; }
 
-/* ---------- Header (same as the portfolio site) ---------- */
-.top {
-  position: sticky; top: 0; z-index: 5;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 14px var(--gutter);
-  padding-top: max(14px, env(safe-area-inset-top));
-  background: rgba(20, 17, 15, .82);
-  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--line);
-}
-.logo { font: 600 26px/1 var(--serif); text-decoration: none; color: inherit; letter-spacing: .01em; }
-.logo span { color: var(--gold); }
-.top-nav { display: flex; align-items: center; gap: clamp(12px, 3vw, 28px); font-size: 14px; }
-.top-nav a { text-decoration: none; color: var(--muted); transition: color .2s; }
-.top-nav a:hover { color: var(--text); }
+/* ---------- Header ---------- */
+.hero { max-width: 1200px; margin: 0 auto; padding: 28px var(--gutter) 36px; }
+.topline { display: flex; align-items: center; justify-content: space-between; margin-bottom: clamp(40px, 7vw, 72px); }
+.to-portfolio { color: var(--muted); text-decoration: none; font-size: 14px; transition: color .2s; }
+.to-portfolio:hover { color: var(--gold); }
 .lang {
-  font: 600 12px/1 var(--sans); letter-spacing: .08em;
-  color: var(--gold); background: var(--gold-soft);
-  border: 1px solid rgba(216, 184, 120, .3); border-radius: 999px;
-  padding: 8px 12px; cursor: pointer;
+  font: 600 12px/1 var(--sans); letter-spacing: .1em; color: var(--muted);
+  background: none; border: 0; padding: 6px 0; cursor: pointer; transition: color .2s;
 }
-
-.hero { max-width: 1200px; margin: 0 auto; padding: clamp(40px, 7vw, 80px) var(--gutter) 32px; }
-.crumbs { color: var(--muted); font-size: 13px; letter-spacing: .08em; }
-.crumbs a { color: var(--gold); text-decoration: none; }
-.crumbs span { margin: 0 6px; opacity: .6; }
-h1 { font: 600 clamp(40px, 7vw, 76px)/1 var(--serif); margin: 14px 0 16px; }
+.lang:hover { color: var(--gold); }
+h1 { font: 600 clamp(40px, 7vw, 76px)/1 var(--serif); margin: 0 0 16px; }
 .lede { color: var(--muted); max-width: 52ch; font-size: 16px; }
 
 /* ---------- Grid ---------- */
