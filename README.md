@@ -24,7 +24,8 @@ python3 -m http.server 8000
 | `assets/thumbs/<key>.webp` | stills, ≤360px, transparent, trimmed (match silhouettes) |
 | `assets/anim/<key>.webm` | 320px VP9 alpha card preview (Chrome, Firefox) |
 | `assets/anim/<key>.webp` | 320px animated WebP alpha — Safari/iOS (WebKit drops VP9 alpha) |
-| `assets/anim640/<key>.webm` | 640px VP9 alpha full-screen animation |
+| `assets/anim640/<key>.webm` | 640px VP9 alpha full-screen animation (Chrome, Firefox) |
+| `assets/anim640/<key>.mov` | 640px HEVC alpha full-screen animation — Safari/iOS |
 | `assets/anim640/<key>.mp3` | gift sound |
 
 The 9 symbols have no animation; the overlay shows the still, slightly scaled up.
@@ -32,6 +33,11 @@ The 9 symbols have no animation; the overlay shows the still, slightly scaled up
 Source originals (`_raw`, 2.7 GB) are **not** in this repo.
 
 ### Re-encoding
+
+Safari/iOS overlay uses HEVC-with-alpha `.mov` (Safari decodes it natively; ~1 MB vs ~3 MB
+for a 640px animated WebP). ffmpeg's `hevc_videotoolbox` writes alpha streams AVFoundation
+can't decode, so these are made with AVFoundation itself from the original `movie-hevc.mp4`
+(`tools/hevc_alpha.swift`: `AVAssetReader` → `AVAssetWriter`, codec `.hevcWithAlpha`, 640px, 1.2 Mbit/s, `.mov` container).
 
 ```sh
 # VP9 with alpha, 640px (decode with libvpx-vp9 to keep alpha)

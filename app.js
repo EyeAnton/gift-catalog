@@ -11,7 +11,8 @@
   const STATIC_SHOW_MS = 2600;
 
   // Safari (and every iOS browser) plays VP9 but drops its alpha channel,
-  // so WebKit gets the animated WebP versions instead.
+  // so WebKit gets HEVC-with-alpha .mov in the overlay (falling back to the
+  // 320px animated WebP) and the animated WebP for card hover previews.
   const ua = navigator.userAgent;
   const isWebKit = /AppleWebKit/.test(ua) && !/(Chrome|Chromium|Edg)\//.test(ua);
   const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
@@ -172,11 +173,12 @@
       audio.play().catch(() => {});
     };
 
-    if (isWebKit) playWebP(gift, id, startAudio);
-    else playVideo(gift, id, startAudio);
+    if (!isWebKit) playVideo(gift.full_webm, id, startAudio, () => playStatic(gift, id));
+    else if (gift.full_mov_safari) playVideo(gift.full_mov_safari, id, startAudio, () => playWebP(gift, id, startAudio));
+    else playWebP(gift, id, startAudio);
   }
 
-  function playVideo(gift, id, startAudio) {
+  function playVideo(src, id, startAudio, onFail) {
     const video = el("video");
     Object.assign(video, { muted: true, playsInline: true, preload: "auto" });
     video.setAttribute("playsinline", "");
@@ -189,11 +191,18 @@
       startAudio();
     }, { once: true });
     video.addEventListener("ended", () => id === session && closeOverlay());
-    video.addEventListener("error", () => playStatic(gift, id), { once: true });
-    video.src = gift.full_webm;
+    let failed = false;
+    const fail = () => {
+      if (failed || id !== session) return;
+      failed = true;
+      video.remove();
+      onFail();
+    };
+    video.addEventListener("error", fail, { once: true });
+    video.src = src;
     $stage.append(video);
     video.play().catch((err) => {
-      if (err.name !== "AbortError") playStatic(gift, id);
+      if (err.name !== "AbortError") fail();
     });
   }
 
