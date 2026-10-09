@@ -5,7 +5,8 @@
   --muted: #a59b90;
   --gold: #d8b878;
   --line: #2b2521;
-  --checker: repeating-conic-gradient(#1f1a16 0 25%, #262019 0 50%) 0 0 / 16px 16px;
+  --gold-soft: rgba(216, 184, 120, .14);
+  --gutter: clamp(16px, 4vw, 48px);
   --serif: "Cormorant Garamond", Georgia, serif;
   --sans: Inter, -apple-system, "Helvetica Neue", Arial, sans-serif;
 }
@@ -23,21 +24,37 @@ body.locked { overflow: hidden; }
 
 .defs { position: absolute; width: 0; height: 0; overflow: hidden; }
 
-/* ---------- Header ---------- */
-.hero { max-width: 1200px; margin: 0 auto; padding: 72px 24px 24px; }
-.kicker { color: var(--gold); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; }
-h1 { font: 600 clamp(44px, 8vw, 84px)/1 var(--serif); margin: 12px 0 16px; }
-.lede { color: var(--muted); max-width: 46ch; font-size: 16px; }
-
-/* ---------- Groups & grid ---------- */
-main { max-width: 1200px; margin: 0 auto; padding: 0 24px 40px; }
-.group { padding-top: 48px; }
-.group-head {
-  display: flex; align-items: baseline; gap: 14px;
-  border-bottom: 1px solid var(--line); padding-bottom: 12px; margin-bottom: 20px;
+/* ---------- Header (same as the portfolio site) ---------- */
+.top {
+  position: sticky; top: 0; z-index: 5;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px var(--gutter);
+  padding-top: max(14px, env(safe-area-inset-top));
+  background: rgba(20, 17, 15, .82);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
 }
-.group-head h2 { font: 600 34px/1.1 var(--serif); }
-.group-head span { color: var(--muted); font-size: 13px; }
+.logo { font: 600 26px/1 var(--serif); text-decoration: none; color: inherit; letter-spacing: .01em; }
+.logo span { color: var(--gold); }
+.top-nav { display: flex; align-items: center; gap: clamp(12px, 3vw, 28px); font-size: 14px; }
+.top-nav a { text-decoration: none; color: var(--muted); transition: color .2s; }
+.top-nav a:hover { color: var(--text); }
+.lang {
+  font: 600 12px/1 var(--sans); letter-spacing: .08em;
+  color: var(--gold); background: var(--gold-soft);
+  border: 1px solid rgba(216, 184, 120, .3); border-radius: 999px;
+  padding: 8px 12px; cursor: pointer;
+}
+
+.hero { max-width: 1200px; margin: 0 auto; padding: clamp(40px, 7vw, 80px) var(--gutter) 32px; }
+.crumbs { color: var(--muted); font-size: 13px; letter-spacing: .08em; }
+.crumbs a { color: var(--gold); text-decoration: none; }
+.crumbs span { margin: 0 6px; opacity: .6; }
+h1 { font: 600 clamp(40px, 7vw, 76px)/1 var(--serif); margin: 14px 0 16px; }
+.lede { color: var(--muted); max-width: 52ch; font-size: 16px; }
+
+/* ---------- Grid ---------- */
+main { max-width: 1200px; margin: 0 auto; padding: 0 var(--gutter) 40px; }
 
 .grid {
   display: grid;
@@ -56,7 +73,6 @@ main { max-width: 1200px; margin: 0 auto; padding: 0 24px 40px; }
 
 .media {
   position: relative; aspect-ratio: 1; border-radius: 12px; overflow: hidden;
-  background: var(--checker);
 }
 /* skeleton, still and hover preview share one box so the swap never jumps */
 .media > .sk, .media > img, .media > video {
@@ -76,11 +92,7 @@ main { max-width: 1200px; margin: 0 auto; padding: 0 24px 40px; }
 .foot { text-align: center; color: var(--muted); font-size: 13px; padding: 24px 24px 56px; }
 
 @media (max-width: 560px) {
-  .hero { padding: 48px 16px 8px; }
-  main { padding: 0 16px 32px; }
   .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-  .group { padding-top: 36px; }
-  .group-head h2 { font-size: 28px; }
 }
 
 /* ---------- Overlay ---------- */

@@ -1,11 +1,7 @@
 (() => {
   "use strict";
 
-  const GROUPS = [
-    { id: "wedding", title: "Wedding" },
-    { id: "catalog", title: "Catalog" },
-    { id: "symbols", title: "Symbols" },
-  ];
+  const ORDER = ["wedding", "catalog", "symbols"];
   const SVG_NS = "http://www.w3.org/2000/svg";
   const FADE_MS = 350;
   const STATIC_SHOW_MS = 2600;
@@ -19,6 +15,38 @@
   const canHover = matchMedia("(hover: hover) and (pointer: fine)");
 
   if (reducedMotion.matches) document.getElementById("shineAnim")?.remove();
+
+  /* ---------------- Language (shared with the portfolio site via localStorage) ---------------- */
+
+  const UI = {
+    ru: {
+      back: "← Все проекты", portfolio: "Портфолио",
+      lede: "Анимированные 3D-подарки, которые люди отправляют друг другу в чате. Нажмите на подарок, чтобы увидеть, как он приходит.",
+      foot: "Анимированные подарки играют со звуком.",
+    },
+    en: {
+      back: "← All projects", portfolio: "Portfolio",
+      lede: "Animated 3D gifts people send each other in a chat. Tap any gift to see it arrive.",
+      foot: "Animated gifts play with sound.",
+    },
+  };
+  const store = {
+    get(k) { try { return localStorage.getItem(k); } catch { return null; } },
+    set(k, v) { try { localStorage.setItem(k, v); } catch {} },
+  };
+  let lang = store.get("lang") || ((navigator.language || "ru").toLowerCase().startsWith("ru") ? "ru" : "en");
+  const $lang = document.getElementById("lang");
+  function applyLang() {
+    document.documentElement.lang = lang;
+    document.querySelectorAll("[data-i18n]").forEach((n) => { n.textContent = UI[lang][n.dataset.i18n]; });
+    $lang.textContent = lang === "ru" ? "EN" : "RU";
+  }
+  $lang.addEventListener("click", () => {
+    lang = lang === "ru" ? "en" : "ru";
+    store.set("lang", lang);
+    applyLang();
+  });
+  applyLang();
 
   const $catalog = document.getElementById("catalog");
   const $overlay = document.getElementById("overlay");
@@ -41,25 +69,13 @@
   /* ---------------- Grid ---------------- */
 
   function render(items, silhouettes) {
-    const frag = document.createDocumentFragment();
-    for (const group of GROUPS) {
-      const gifts = items.filter((g) => g.group === group.id);
-      if (!gifts.length) continue;
-
-      const section = el("section", "group");
-      const head = el("div", "group-head");
-      const h2 = el("h2");
-      h2.textContent = group.title;
-      const count = el("span");
-      count.textContent = `${gifts.length} gifts`;
-      head.append(h2, count);
-
-      const grid = el("div", "grid");
-      for (const gift of gifts) grid.append(card(gift, silhouettes[gift.key]));
-      section.append(head, grid);
-      frag.append(section);
+    // One flat grid; ORDER only decides which gifts come first.
+    const rank = (g) => (ORDER.indexOf(g.group) + 1 || ORDER.length + 1);
+    const grid = el("div", "grid");
+    for (const gift of [...items].sort((a, b) => rank(a) - rank(b))) {
+      grid.append(card(gift, silhouettes[gift.key]));
     }
-    $catalog.replaceChildren(frag);
+    $catalog.replaceChildren(grid);
     $catalog.removeAttribute("aria-busy");
   }
 

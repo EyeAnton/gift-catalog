@@ -1,9 +1,10 @@
 # Gift Catalog
 
-Catalog of animated virtual gifts — part of Anton's portfolio (case "Virtual Gifts").
-Later becomes a section of the portfolio site.
+Catalog of animated virtual gifts — a section of Anton's portfolio (https://eyeanton.github.io/),
+served at https://eyeanton.github.io/gift-catalog/ and linked from the "Virtual Gifts" project card.
+Shares the portfolio header and RU/EN setting (`localStorage.lang`, same origin).
 
-- Grid of 56 gifts grouped Wedding → Catalog → Symbols, English names.
+- One grid of 56 gifts (wedding first, then catalog, then symbols), English names, no transparency checkerboard.
 - Loading skeleton: each gift's real SVG silhouette (`silhouettes.json`) with a shimmer, cross-fading to the still.
 - Click a gift: full-screen overlay "as if sent in a chat" — dimmed chat behind, the animation with sound, closes itself when it ends (Esc / click also close).
 - Desktop hover plays a small preview.
