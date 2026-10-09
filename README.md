@@ -1,0 +1,48 @@
+# Gift Catalog
+
+Catalog of animated virtual gifts — part of Anton's portfolio (case "Virtual Gifts").
+Later becomes a section of the portfolio site.
+
+- Grid of 56 gifts grouped Wedding → Catalog → Symbols, English names.
+- Loading skeleton: each gift's real SVG silhouette (`silhouettes.json`) with a shimmer, cross-fading to the still.
+- Click a gift: full-screen overlay "as if sent in a chat" — dimmed chat behind, the animation with sound, closes itself when it ends (Esc / click also close).
+- Desktop hover plays a small preview.
+
+Plain HTML/CSS/JS, no build step. Data comes from `gifts.json`.
+
+## Run locally
+
+```sh
+python3 -m http.server 8000
+# open http://localhost:8000
+```
+
+## Media
+
+| Path | What |
+|---|---|
+| `assets/thumbs/<key>.webp` | stills, ≤360px, transparent, trimmed (match silhouettes) |
+| `assets/anim/<key>.webm` | 320px VP9 alpha card preview (Chrome, Firefox) |
+| `assets/anim/<key>.webp` | 320px animated WebP alpha — Safari/iOS (WebKit drops VP9 alpha) |
+| `assets/anim640/<key>.webm` | 640px VP9 alpha full-screen animation |
+| `assets/anim640/<key>.mp3` | gift sound |
+
+The 9 symbols have no animation; the overlay shows the still, slightly scaled up.
+
+Source originals (`_raw`, 2.7 GB) are **not** in this repo.
+
+### Re-encoding
+
+```sh
+# VP9 with alpha, 640px (decode with libvpx-vp9 to keep alpha)
+ffmpeg -c:v libvpx-vp9 -i movie-webm.webm -vf scale=640:-1 -c:v libvpx-vp9 -pix_fmt yuva420p -b:v 0 -crf 36 -an -auto-alt-ref 0 out.webm
+# Animated WebP with alpha for Safari, 640px
+ffmpeg -c:v libvpx-vp9 -i movie-webm.webm -vf "fps=20,scale=640:-1:flags=lanczos" -c:v libwebp_anim -q:v 60 -loop 0 -an -f webp out.webp
+```
+
+New gifts: add an entry to `gifts.json` and a silhouette to `silhouettes.json`
+(alpha → threshold 40 → `findContours(RETR_CCOMP)` → `approxPolyDP(0.7)` → path on a 120px grid).
+
+## Deploy
+
+Static site — GitHub Pages (root of `main`) or Cloudflare Pages (no build command, output dir `/`).

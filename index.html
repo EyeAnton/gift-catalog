@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Virtual Gifts — Catalog</title>
+<meta name="description" content="A catalog of animated virtual gifts. Tap a gift to see it sent in a chat.">
+<meta name="theme-color" content="#14110f">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Shared shimmer gradient for all skeleton silhouettes -->
+<svg class="defs" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="shine" x1="0" y1="0" x2="1" y2="0.35">
+      <stop offset="0" stop-color="#2b2521"/>
+      <stop offset="0.42" stop-color="#2b2521"/>
+      <stop offset="0.5" stop-color="#4a3f36"/>
+      <stop offset="0.58" stop-color="#2b2521"/>
+      <stop offset="1" stop-color="#2b2521"/>
+      <animateTransform id="shineAnim" attributeName="gradientTransform" type="translate"
+        from="-1 0" to="1 0" dur="1.6s" repeatCount="indefinite"/>
+    </linearGradient>
+  </defs>
+</svg>
+
+<header class="hero">
+  <p class="kicker">Portfolio · Case study</p>
+  <h1>Virtual Gifts</h1>
+  <p class="lede">3D gifts people send each other in a chat. Tap any gift to see it arrive.</p>
+</header>
+
+<main id="catalog" aria-busy="true"></main>
+
+<footer class="foot">Animated gifts play with sound.</footer>
+
+<!-- "Sent in a chat" overlay -->
+<div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-label="Gift preview" hidden>
+  <div class="chat" aria-hidden="true">
+    <div class="chat-col">
+      <div class="chat-head">
+        <span class="back"></span>
+        <span class="av">M</span>
+        <span class="who"><b>Mia</b><span>online</span></span>
+      </div>
+      <div class="msgs">
+        <div class="day">TODAY</div>
+        <div class="m in">Guess what… he proposed! 💍</div>
+        <div class="m out">No way!! Congratulations 🥹</div>
+        <div class="m in">The wedding is in June. You’re coming, right?</div>
+        <div class="m out">Wouldn’t miss it. Sending you something ✨</div>
+        <div class="m out sent">You sent <b id="sentName">a gift</b></div>
+      </div>
+      <div class="chat-input"><span class="f">Message…</span><span class="s"></span></div>
+    </div>
+  </div>
+  <div class="center">
+    <div class="stage" id="stage"><div class="spinner" id="spinner" hidden></div></div>
+    <p class="caption" id="caption"></p>
+  </div>
+  <button class="close" id="closeBtn" aria-label="Close">×</button>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
