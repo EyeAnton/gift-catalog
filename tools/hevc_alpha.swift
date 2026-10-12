@@ -1,5 +1,5 @@
-// Usage: swiftc -O tools/hevc_alpha.swift -o hevc_alpha && ./hevc_alpha movie-hevc.mp4 out.mov [bitrate]
-// HEVC-with-alpha 640px for Safari/iOS (ffmpeg hevc_videotoolbox alpha output does not decode in AVFoundation).
+// Usage: swiftc -O tools/hevc_alpha.swift -o hevc_alpha && ./hevc_alpha movie-hevc.mp4 out.mov [bitrate] [width]
+// HEVC-with-alpha (640px by default) for Safari/iOS (ffmpeg hevc_videotoolbox alpha output does not decode in AVFoundation).
 import Foundation; import AVFoundation; import VideoToolbox
 let src = URL(fileURLWithPath: CommandLine.arguments[1]), dst = URL(fileURLWithPath: CommandLine.arguments[2])
 let bitrate = Int(CommandLine.arguments.count > 3 ? CommandLine.arguments[3] : "1200000")!
@@ -7,7 +7,8 @@ try? FileManager.default.removeItem(at: dst)
 let asset = AVURLAsset(url: src)
 let track = asset.tracks(withMediaType: .video)[0]
 let sz = track.naturalSize.applying(track.preferredTransform)
-let W = 640, H = Int((abs(sz.height) / abs(sz.width) * 640 / 2).rounded()) * 2
+let want = Int(CommandLine.arguments.count > 4 ? CommandLine.arguments[4] : "640")!
+let W = min(want, Int(abs(sz.width)) / 2 * 2), H = Int((abs(sz.height) / abs(sz.width) * Double(W) / 2).rounded()) * 2
 let reader = try! AVAssetReader(asset: asset)
 let out = AVAssetReaderTrackOutput(track: track, outputSettings: [kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA])
 reader.add(out)

@@ -124,7 +124,7 @@
   Promise.all([
     fetch("gifts.json?v=3").then((r) => r.json()),
     fetch("silhouettes.json?v=3").then((r) => r.json()),
-    fetch("showcase.json?v=1").then((r) => r.json()).catch(() => ({})),
+    fetch("showcase.json?v=2").then((r) => r.json()).catch(() => ({})),
   ])
     .then(([gifts, silhouettes, showcase]) => render(gifts.items, silhouettes, showcase))
     .catch((err) => {
@@ -150,7 +150,11 @@
   // and can be copied or downloaded as a new showcase.json).
   const PICK_MODE = new URLSearchParams(location.search).has("pick");
   const PICK_KEY = "gcShowcasePick";
-  const srcFor = (g) => (isWebKit && g.full_mov_safari ? g.full_mov_safari : g.full_webm);
+  // Gifts listed in showcase.json "hires" also have 1080px files (tools/encode_showcase.sh).
+  let hires = new Set();
+  const srcFor = (g) => hires.has(g.key)
+    ? `assets/anim1080/${g.key}.${isWebKit ? "mov" : "webm"}`
+    : (isWebKit && g.full_mov_safari ? g.full_mov_safari : g.full_webm);
 
   function setupShowcase(items, config) {
     const $devices = document.getElementById("gcDevices");
@@ -162,7 +166,8 @@
     const names = [...$devices.querySelectorAll(".gc-gift-name")];
     let gifts = [], chips = [], index = 0, run = 0, visible = false, timers = [];
 
-    let state = { gifts: config.gifts || [], fit: config.fit || "cover" };
+    hires = new Set(config.hires || []);
+    let state = { gifts: config.gifts || [], fit: config.fit || "mixed" };
     if (PICK_MODE) {
       try { state = { ...state, ...JSON.parse(store.get(PICK_KEY)) }; } catch {}
     }
@@ -268,8 +273,9 @@
           </div>
           <div class="gc-picker-tools">
             <span class="gc-picker-fit">
-              <button class="chip" type="button" data-fit="cover">По длинной стороне</button>
-              <button class="chip" type="button" data-fit="contain">Целиком</button>
+              <button class="chip" type="button" data-fit="mixed">Телефон по длинной, ноутбук целиком</button>
+              <button class="chip" type="button" data-fit="cover">Везде по длинной</button>
+              <button class="chip" type="button" data-fit="contain">Везде целиком</button>
             </span>
             <button class="btn ghost small" type="button" data-act="reset">Как в showcase.json</button>
             <button class="btn ghost small" type="button" data-act="copy">Скопировать JSON</button>
@@ -303,9 +309,9 @@
         apply(true);
         sync();
       }));
-      const json = () => JSON.stringify({ gifts: gifts.map((g) => g.key), fit: state.fit }, null, 1) + "\n";
+      const json = () => JSON.stringify({ gifts: gifts.map((g) => g.key), fit: state.fit, hires: [...hires] }, null, 1) + "\n";
       box.querySelector("[data-act=reset]").addEventListener("click", () => {
-        state = { gifts: [...(config.gifts || [])], fit: config.fit || "cover" };
+        state = { gifts: [...(config.gifts || [])], fit: config.fit || "mixed" };
         store.set(PICK_KEY, "");
         apply(false);
         sync();

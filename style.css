@@ -154,7 +154,10 @@ body.locked { overflow: hidden; }
   opacity: 0; transform: scale(.94); will-change: opacity, transform;
   transition: opacity .35s ease, transform .6s var(--ease);
 }
-.gc-devices[data-fit="contain"] .gc-fx video { object-fit: contain; }
+/* mixed (default): the phone fills by its long side, the laptop shows the whole square by height —
+   a 640px source stretched across the laptop's width would go soft */
+.gc-devices[data-fit="contain"] .gc-fx video,
+.gc-devices[data-fit="mixed"] .gc-web .gc-fx video { object-fit: contain; }
 .gc-devices.playing .gc-fx video.on { opacity: 1; transform: none; }
 .gc-gift-msg { transition: opacity .4s ease; }
 .gc-devices:not(.arrived) .gc-gift-msg { opacity: 0; }

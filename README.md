@@ -50,6 +50,18 @@ ffmpeg -c:v libvpx-vp9 -i movie-webm.webm -vf "fps=20,scale=640:-1:flags=lanczos
 New gifts: add an entry to `gifts.json` and a silhouette to `silhouettes.json`
 (alpha → threshold 40 → `findContours(RETR_CCOMP)` → `approxPolyDP(0.7)` → path on a 120px grid).
 
+## Showcase mockups
+
+The laptop + phone block plays the gifts listed in `showcase.json`:
+
+- `gifts` — keys in play order; `fit` — `mixed` (phone fills by its long side, laptop shows the whole square), `cover` or `contain`;
+  `hires` — keys that also have 1080px files in `assets/anim1080/`.
+- Open the page with `?pick` to choose and order gifts visually; the choice stays in that browser
+  and can be copied or downloaded as a new `showcase.json`.
+- The 640px files go soft when stretched over the laptop screen. On the Mac with the originals:
+  `tools/encode_showcase.sh ~/Downloads/Portfolio_cases/01_Gift_Catalog/_raw` encodes every showcase gift
+  to 1080px VP9 alpha + HEVC alpha and adds it to `hires` (switch `fit` to `cover` after that if wanted).
+
 ## Deploy
 
 Static site — GitHub Pages (root of `main`) or Cloudflare Pages (no build command, output dir `/`).
