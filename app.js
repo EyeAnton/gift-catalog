@@ -26,7 +26,7 @@
     "hero.lead": "A collection of animated 3D gifts for a social app: from the idea and one shared style to a package developers ship with no manual work.",
     "hero.try": "Send a gift ↓", "hero.how": "How it was made",
     "meta.role": "Role", "meta.company": "Format", "meta.companyV": "In-house · NDA", "meta.when": "Period", "meta.whenV": "2025 — 2026", "meta.tools": "Tools",
-    "stat.gifts": "gifts in one style", "stat.anim": "animations with alpha and sound", "stat.weight": "per full-screen animation",
+    "stat.gifts": "gifts in one style", "stat.anim": "animations with alpha and sound", "stat.weight": "full-screen animation in the product",
     "show.eyebrow": "What the recipient sees",
     "show.title": "The whole screen belongs to the gift",
     "show.text": "A gift message lands in a dating chat, the conversation dims, and a transparent-background animation plays full screen on top. The same in the app and on the web.",
@@ -70,8 +70,14 @@
     "tech.text": "Every gift ships in several formats, and the browser picks the one it can show with an alpha channel.",
     "tech.1k": "Grid", "tech.1d": "A ~26 KB still plus the gift's SVG silhouette, which shimmers while the image loads.",
     "tech.2k": "Hover preview", "tech.2d": "~0.4 MB in Chrome and Firefox; Safari gets an animated WebP with alpha.",
-    "tech.3k": "Full screen", "tech.3d": "~1 MB per animation + a ~190 KB MP3. Sound starts in sync with the first frame.",
-    "tech.safari": "Safari plays VP9 but drops transparency — the gift arrives on a black square. So WebKit gets HEVC with alpha. ffmpeg writes a stream Safari can't decode, so the .mov files are built through AVFoundation with a small Swift tool.",
+    "tech.3k": "Full screen", "tech.3d": "1540px in the product. This page uses light 640px files: ~1 MB per animation + a ~190 KB MP3. Sound starts in sync with the first frame.",
+    "alpha.eyebrow": "Transparency on every platform",
+    "alpha.title": "One animation, two codecs",
+    "alpha.text": "The least obvious part of delivery: browsers handle transparent video differently, and the only way to check is on real devices.",
+    "alpha.apple": "Safari and every browser on iPhone",
+    "alpha.bad": "alpha is dropped — the gift lands on a black square",
+    "alpha.apple2": "a separate file for WebKit",
+    "alpha.hevc": "ffmpeg writes a stream Safari can't decode, so a small Swift tool builds it through AVFoundation",
     "res.eyebrow": "Result",
     "res.title": "A collection ready to ship",
     "res.1t": "56 gifts", "res.1d": "holidays, weddings, romance and symbols — in one visual language",
@@ -158,8 +164,8 @@
   /* ---------------- Process: one gift, five steps (working frames from Figma, process.json) ---------------- */
 
   const PROC_UI = {
-    ru: { picked: "в работу", note: "Бриф из рабочего файла Figma", send: "Отправить в чат ↗" },
-    en: { picked: "picked", note: "Brief from the working Figma file (translated)", send: "Send in a chat ↗" },
+    ru: { picked: "в работу", note: "Бриф из рабочего файла Figma" },
+    en: { picked: "picked", note: "Brief from the working Figma file (translated)" },
   };
 
   function setupProcess(items, list) {
@@ -221,28 +227,66 @@
       });
       steps[3].replaceChildren(frames);
 
-      const stage = el("div", "gc-result-stage");
-      if (isWebKit || reducedMotion.matches) {
-        stage.append(img(reducedMotion.matches ? p.gift.still : p.gift.preview_webp_safari));
-      } else {
-        const v = el("video");
-        Object.assign(v, { muted: true, loop: true, playsInline: true, autoplay: true, preload: "metadata" });
-        v.src = p.gift.preview_webm;
-        stage.append(v);
-      }
-      const send = el("button", "btn ghost small");
-      send.type = "button";
-      send.textContent = t.send;
-      send.addEventListener("click", () => openOverlay(p.gift, send));
-      const result = el("div", "gc-result");
-      result.append(stage, send);
-      steps[4].replaceChildren(result);
+      // the finished gift, arriving full screen in the same phone + dating chat as the showcase
+      mini.play(p.gift);
 
       $proc.classList.remove("switching");
     }
 
+    const mini = miniPhone();
+    steps[4].replaceChildren(mini.node);
     show();
     langHooks.push(show);
+  }
+
+  // A copy of the showcase phone that loops one gift: chat → gift message → full-screen animation.
+  // Full-screen gift video always fills the screen by its long side (object-fit: cover).
+  function miniPhone() {
+    const node = el("div", "gc-devices gc-mini");
+    node.dataset.fit = "cover";
+    node.append(document.querySelector(".gc-phone").cloneNode(true));
+    const video = node.querySelector(".gc-fx-v");
+    const names = [...node.querySelectorAll(".gc-gift-name")];
+    let run = 0, visible = false, gift = null, timers = [];
+    const later = (fn, ms) => timers.push(setTimeout(fn, ms));
+
+    function loop() {
+      const id = ++run;
+      timers.forEach(clearTimeout);
+      timers = [];
+      node.classList.remove("playing", "arrived");
+      video.classList.remove("on");
+      video.pause();
+      if (!gift || !visible) return;
+      names.forEach((n) => { n.textContent = gift.name; });
+      if (reducedMotion.matches) {
+        video.poster = gift.still;
+        node.classList.add("arrived", "playing");
+        video.classList.add("on");
+        return;
+      }
+      const src = isWebKit && gift.full_mov_safari ? gift.full_mov_safari : gift.full_webm;
+      if (!video.src.endsWith(src)) { video.src = src; video.load(); }
+      later(() => node.classList.add("arrived"), 600);
+      later(() => {
+        node.classList.add("playing");
+        video.currentTime = 0;
+        video.play().then(() => id === run && video.classList.add("on")).catch(() => {});
+      }, 1300);
+      video.onended = () => {
+        if (id !== run) return;
+        video.classList.remove("on");
+        later(() => node.classList.remove("playing"), 300);
+        later(loop, 2200);
+      };
+    }
+
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(([e]) => { visible = e.isIntersecting; loop(); }, { threshold: 0.3 }).observe(node);
+    } else {
+      visible = true;
+    }
+    return { node, play(g) { gift = g; loop(); } };
   }
 
   /* ---------------- Showcase: laptop + phone, the gift arriving over a dating chat ---------------- */

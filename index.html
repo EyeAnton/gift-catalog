@@ -5,21 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Virtual Gifts — Anton Egorov</title>
 <meta name="description" content="Кейс: коллекция анимированных 3D-подарков для соцприложения — стиль, AI-пайплайн, анимация с альфа-каналом и звук. Интерактивный каталог из 56 подарков.">
-<meta name="theme-color" content="#040404">
+<meta name="theme-color" content="#050a18">
 <meta property="og:title" content="Virtual Gifts — Anton Egorov">
 <meta property="og:description" content="Анимированные 3D-подарки для соцприложения: от идеи и единого стиля до пакета, который разработчики выкладывают без ручной работы.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://eyeanton.github.io/gift-catalog/">
 <meta property="og:image" content="https://eyeanton.github.io/assets/og.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23040404'/><text x='32' y='45' font-family='Arial,sans-serif' font-weight='600' font-size='36' text-anchor='middle' fill='%23ff5b04'>A</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23050a18'/><text x='32' y='45' font-family='Arial,sans-serif' font-weight='600' font-size='36' text-anchor='middle' fill='%23ec2f1f'>A</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
-<!-- Blaze design system and the site shell (header, footer, CTA) come straight from the portfolio, same origin -->
+<!-- Lighthouse design system and the site shell (header, footer, CTA) come straight from the portfolio, same origin -->
 <link rel="stylesheet" href="/design-system.css">
 <link rel="stylesheet" href="/style.css">
-<link rel="stylesheet" href="style.css?v=8">
+<link rel="stylesheet" href="style.css?v=9">
 </head>
 <body>
 
@@ -27,11 +27,11 @@
 <svg class="defs" aria-hidden="true" focusable="false">
   <defs>
     <linearGradient id="shine" x1="0" y1="0" x2="1" y2="0.35">
-      <stop offset="0" stop-color="#161616"/>
-      <stop offset="0.42" stop-color="#161616"/>
-      <stop offset="0.5" stop-color="#3a2416"/>
-      <stop offset="0.58" stop-color="#161616"/>
-      <stop offset="1" stop-color="#161616"/>
+      <stop offset="0" stop-color="#0e1830"/>
+      <stop offset="0.42" stop-color="#0e1830"/>
+      <stop offset="0.5" stop-color="#24386a"/>
+      <stop offset="0.58" stop-color="#0e1830"/>
+      <stop offset="1" stop-color="#0e1830"/>
       <animateTransform id="shineAnim" attributeName="gradientTransform" type="translate"
         from="-1 0" to="1 0" dur="1.6s" repeatCount="indefinite"/>
     </linearGradient>
@@ -107,7 +107,7 @@
     <div class="stats">
       <div class="stat reveal"><b>56</b><span data-i18n="stat.gifts">подарков в одном стиле</span></div>
       <div class="stat reveal" style="--d:80ms"><b>47</b><span data-i18n="stat.anim">анимаций с альфой и звуком</span></div>
-      <div class="stat reveal" style="--d:160ms"><b>~1&nbsp;<small>MB</small></b><span data-i18n="stat.weight">на полноэкранную анимацию</span></div>
+      <div class="stat reveal" style="--d:160ms"><b>1540&nbsp;<small>px</small></b><span data-i18n="stat.weight">полноэкранная анимация в продукте</span></div>
     </div>
   </section>
 
@@ -304,14 +304,55 @@
       </article>
       <article class="gc-tech surface reveal" style="--d:160ms">
         <p class="gc-tech-k" data-i18n="tech.3k">Полный экран</p>
-        <h3>VP9 / HEVC alpha · 640px</h3>
-        <p data-i18n="tech.3d">~1 MB на анимацию + MP3 ~190 KB. Звук стартует синхронно с первым кадром.</p>
+        <h3>VP9 / HEVC alpha · 1540px</h3>
+        <p data-i18n="tech.3d">В продукте — 1540px. На этой странице — облегчённые 640px: ~1 MB на анимацию + MP3 ~190 KB. Звук стартует синхронно с первым кадром.</p>
       </article>
     </div>
-    <aside class="gc-callout surface-glow reveal">
-      <p class="eyebrow">Safari &amp; iOS</p>
-      <p data-i18n="tech.safari">Safari проигрывает VP9, но теряет прозрачность — подарок приходит на чёрном квадрате. Поэтому для WebKit — HEVC with alpha. ffmpeg пишет такой поток, который Safari не декодирует, так что .mov собирается через AVFoundation отдельной утилитой на Swift.</p>
-    </aside>
+    <!-- alpha on every platform: one animation, two codecs -->
+    <svg class="defs" aria-hidden="true" focusable="false">
+      <symbol id="i-win" viewBox="0 0 24 24"><path fill="currentColor" d="M3 5.6 10.4 4.5v7.1H3zM11.4 4.4 21 3v8.6h-9.6zM3 12.6h7.4v7L3 18.4zM11.4 12.6H21V21l-9.6-1.4z"/></symbol>
+      <symbol id="i-android" viewBox="0 0 24 24"><path fill="currentColor" d="M4.5 17.5a7.5 7.5 0 0 1 15 0z"/><path d="M7.6 10.2 6 7.6M16.4 10.2 18 7.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="9" cy="14" r="1" fill="#050a18"/><circle cx="15" cy="14" r="1" fill="#050a18"/></symbol>
+      <symbol id="i-apple" viewBox="0 0 24 24"><path fill="currentColor" d="M16.4 12.7c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.2-2.8.9-3.5.9-.7 0-1.8-.8-3-.8C6.9 7.5 5 9 5 12.1c0 1.9.7 3.9 1.6 5.2.8 1.1 1.5 2.1 2.5 2.1s1.3-.6 2.6-.6 1.6.6 2.6.6c1.1 0 1.7-1 2.4-2 .8-1.1 1.1-2.2 1.1-2.3 0 0-2.3-.9-2.4-3.4zM14.3 5.9c.6-.7.9-1.6.8-2.5-.8 0-1.7.5-2.3 1.2-.5.6-.9 1.5-.8 2.4.9.1 1.7-.4 2.3-1.1z"/></symbol>
+    </svg>
+    <div class="gc-alpha surface reveal">
+      <div class="gc-alpha-head">
+        <p class="eyebrow" data-i18n="alpha.eyebrow">Прозрачность на всех платформах</p>
+        <h3 data-i18n="alpha.title">Одна анимация — два кодека</h3>
+        <p data-i18n="alpha.text">Самая неочевидная часть доставки: прозрачное видео браузеры понимают по-разному, и проверить это можно только на реальных устройствах.</p>
+      </div>
+      <div class="gc-lanes">
+        <div class="gc-lane">
+          <div class="gc-plat">
+            <span class="gc-icons"><svg><use href="#i-win"/></svg><svg><use href="#i-android"/></svg></span>
+            <span><b>Windows · Android</b><small>Chrome, Firefox, Edge</small></span>
+          </div>
+          <span class="gc-to">→</span>
+          <div class="gc-codec"><b>WebM · VP9 alpha</b><small>ffmpeg · libvpx-vp9</small></div>
+          <span class="gc-to">→</span>
+          <div class="gc-out"><span class="gc-chk"><img src="assets/thumbs/sep__glass_heart_3d.webp" alt=""></span><i class="ok">✓</i></div>
+        </div>
+        <div class="gc-lane bad">
+          <div class="gc-plat">
+            <span class="gc-icons"><svg><use href="#i-apple"/></svg></span>
+            <span><b>macOS · iOS</b><small data-i18n="alpha.apple">Safari и все браузеры на iPhone</small></span>
+          </div>
+          <span class="gc-to">→</span>
+          <div class="gc-codec"><b><s>WebM · VP9 alpha</s></b><small data-i18n="alpha.bad">альфа теряется — подарок на чёрном квадрате</small></div>
+          <span class="gc-to">→</span>
+          <div class="gc-out"><span class="gc-blk"><img src="assets/thumbs/sep__glass_heart_3d.webp" alt=""></span><i class="no">✕</i></div>
+        </div>
+        <div class="gc-lane fix">
+          <div class="gc-plat">
+            <span class="gc-icons"><svg><use href="#i-apple"/></svg></span>
+            <span><b>macOS · iOS</b><small data-i18n="alpha.apple2">отдельный файл для WebKit</small></span>
+          </div>
+          <span class="gc-to">→</span>
+          <div class="gc-codec"><b>MOV · HEVC alpha</b><small data-i18n="alpha.hevc">ffmpeg пишет поток, который Safari не декодирует, — поэтому своя утилита на Swift через AVFoundation</small></div>
+          <span class="gc-to">→</span>
+          <div class="gc-out"><span class="gc-chk"><img src="assets/thumbs/sep__glass_heart_3d.webp" alt=""></span><i class="ok">✓</i></div>
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- ============ result ============ -->
@@ -377,6 +418,6 @@
   <button class="close" id="closeBtn" aria-label="Close">×</button>
 </div>
 
-<script src="app.js?v=7"></script>
+<script src="app.js?v=8"></script>
 </body>
 </html>
