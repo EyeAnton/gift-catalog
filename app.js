@@ -17,28 +17,97 @@
 
   /* ---------------- Language (shared with the portfolio site via localStorage) ---------------- */
 
-  const UI = {
-    ru: {
-      back: "← Портфолио",
-      lede: "Анимированные 3D-подарки, которые люди отправляют друг другу в чате. Нажмите на подарок, чтобы увидеть, как он приходит.",
-      foot: "Анимированные подарки играют со звуком.",
-    },
-    en: {
-      back: "← Portfolio",
-      lede: "Animated 3D gifts people send each other in a chat. Tap any gift to see it arrive.",
-      foot: "Animated gifts play with sound.",
-    },
+  // Russian is the source: it is written in index.html and read from the DOM once.
+  // English lives here, keyed by data-i18n.
+  const EN = {
+    "nav.home": "Home", "nav.work": "Projects", "nav.contact": "Contact",
+    "crumb": "← All projects",
+    "hero.eyebrow": "Case study · Motion &amp; AI 3D",
+    "hero.lead": "A collection of animated 3D gifts for a social app: from the idea and one shared style to a package developers ship with no manual work.",
+    "hero.try": "Send a gift ↓", "hero.how": "How it was made",
+    "meta.role": "Role", "meta.company": "Format", "meta.companyV": "In-house · NDA", "meta.when": "Period", "meta.whenV": "2025 — 2026", "meta.tools": "Tools",
+    "stat.gifts": "gifts in one style", "stat.anim": "animations with alpha and sound", "stat.weight": "full-screen animation in the product",
+    "show.eyebrow": "What the recipient sees",
+    "show.title": "The whole screen belongs to the gift",
+    "show.text": "A gift message lands in a dating chat, the conversation dims, and a transparent-background animation plays full screen on top. The same in the app and on the web.",
+    "show.matches": "Matches", "show.prev1": "sent you a gift",
+    "show.match": "You liked each other · today",
+    "proc.eyebrow": "Process",
+    "proc.title": "One gift, five steps",
+    "proc.text": "Every gift takes the same path in Figma: source, brief, chroma-key drafts, key frames and the finished animation. Each step is a selection.",
+    "proc.1t": "Source", "proc.1d": "A static 3D gift as the starting point",
+    "proc.2t": "Idea", "proc.2d": "A short brief: what happens in the frame",
+    "proc.3t": "Drafts", "proc.3d": "Frame variants on chroma key; the best go further",
+    "proc.4t": "Key frames", "proc.4d": "Start, phases and end — the backbone for video generation",
+    "proc.5t": "Result", "proc.5d": "Background cut to alpha, the animation gets its own sound",
+    "task.eyebrow": "The task",
+    "task.title": "A gift is an emotion that lands in a chat",
+    "task.text": "A social app with a lot of content needs a steady flow of gifts: for holidays, weddings, confessions and just because. Every gift lives in three places at once.",
+    "task.1t": "Tiny in the grid", "task.1d": "In the store a gift is a fingertip-sized icon. The silhouette has to read instantly, without a label.",
+    "task.2t": "Big over the chat", "task.2d": "Once sent, it plays full screen over the conversation — with a transparent background and sound.",
+    "task.3t": "Ready for developers", "task.3d": "Mobile apps, web and Figma get one package: files for every platform, no manual finishing.",
+    "style.eyebrow": "Approach &amp; style",
+    "style.title": "One style for the whole collection",
+    "style.text": "A wedding cake, a yacht and a panda with a heart are made at different times with different tools, yet in a chat they have to look like one set. So rules come first, generation second.",
+    "style.r1": "Soft volumetric 3D and warm light — a gift you want to hold",
+    "style.r2": "A clean silhouette with no background: trimmed to the outline and centred",
+    "style.r3": "A short animation with a start and an end — the gift arrives and leaves on its own",
+    "style.r4": "Every animated gift has its own sound",
+    "pipe.eyebrow": "Pipeline",
+    "pipe.title": "From storyboard to a file in the app",
+    "pipe.text": "A Node.js script ties generation, chroma key and export together, so a new gift goes all the way through, and hands-on work stays where it matters: style and animation.",
+    "pipe.1t": "Idea &amp; storyboard", "pipe.1d": "Occasion, look, key frames",
+    "pipe.2t": "Generation", "pipe.2d": "Gemini for prompts and frames, Kling API for video",
+    "pipe.3t": "Review &amp; polish", "pipe.3d": "Blender, edit and fixes in After Effects",
+    "pipe.4t": "Chroma key", "pipe.4d": "ffmpeg cuts the background into an alpha channel",
+    "pipe.5t": "Export", "pipe.5d": "VP9 alpha · HEVC alpha · WebP · MP3",
+    "pipe.6t": "Package", "pipe.6d": "JSON manifest + media for mobile, web and Figma",
+    "cat.eyebrow": "Interactive catalog",
+    "cat.title": "Send a gift",
+    "cat.text": "Tap any of them — it arrives the way the recipient sees it in a chat. Animated gifts play with sound.",
+    "tech.eyebrow": "Delivery",
+    "tech.title": "A transparent background in any browser",
+    "tech.text": "Every gift ships in several formats, and the browser picks the one it can show with an alpha channel.",
+    "tech.1k": "Grid", "tech.1d": "A ~26 KB still plus the gift's SVG silhouette, which shimmers while the image loads.",
+    "tech.2k": "Hover preview", "tech.2d": "~0.4 MB in Chrome and Firefox; Safari gets an animated WebP with alpha.",
+    "tech.3k": "Full screen", "tech.3d": "1540px in the product. This page uses light 640px files: ~1 MB per animation + a ~190 KB MP3. Sound starts in sync with the first frame.",
+    "alpha.eyebrow": "Transparency on every platform",
+    "alpha.title": "One animation, two codecs",
+    "alpha.text": "The least obvious part of delivery: browsers handle transparent video differently, and the only way to check is on real devices.",
+    "alpha.apple": "Safari and every browser on iPhone",
+    "alpha.bad": "alpha is dropped — the gift lands on a black square",
+    "alpha.apple2": "a separate file for WebKit",
+    "alpha.hevc": "ffmpeg writes a stream Safari can't decode, so a small Swift tool builds it through AVFoundation",
+    "res.eyebrow": "Result",
+    "res.title": "A collection ready to ship",
+    "res.1t": "56 gifts", "res.1d": "holidays, weddings, romance and symbols — in one visual language",
+    "res.2t": "A repeatable process", "res.2d": "a new gift goes through the same pipeline, from storyboard to finished files",
+    "res.3t": "Zero manual packaging", "res.3d": "developers get a manifest and media for every platform",
+    "res.4t": "Works everywhere", "res.4d": "transparent animation with sound in Chrome, Firefox, Safari and on iPhone",
+    "next.eyebrow": "Next project",
+    "next.text": "A Telegram bot that turns photos into stickers and stylised portraits through AI pipelines.",
+    "next.all": "All projects →", "next.contact": "Contact &amp; CV",
+    "foot.note": "Built without frameworks · works on any device",
+    "foot.ds": "Design system",
   };
+  const NAV_LABEL = { ru: "Разделы", en: "Sections" };
+
   const store = {
     get(k) { try { return localStorage.getItem(k); } catch { return null; } },
     set(k, v) { try { localStorage.setItem(k, v); } catch {} },
   };
+  const $i18n = [...document.querySelectorAll("[data-i18n]")];
+  const RU = Object.fromEntries($i18n.map((n) => [n.dataset.i18n, n.innerHTML]));
   let lang = store.get("lang") || ((navigator.language || "ru").toLowerCase().startsWith("ru") ? "ru" : "en");
   const $lang = document.getElementById("lang");
+  const langHooks = []; // parts built in JS re-render themselves on a language switch
   function applyLang() {
+    const dict = lang === "ru" ? RU : EN;
     document.documentElement.lang = lang;
-    document.querySelectorAll("[data-i18n]").forEach((n) => { n.textContent = UI[lang][n.dataset.i18n]; });
+    for (const n of $i18n) n.innerHTML = dict[n.dataset.i18n] ?? RU[n.dataset.i18n];
+    document.querySelector(".tabs")?.setAttribute("aria-label", NAV_LABEL[lang]);
     $lang.textContent = lang === "ru" ? "EN" : "RU";
+    langHooks.forEach((f) => f());
   }
   $lang.addEventListener("click", () => {
     lang = lang === "ru" ? "en" : "ru";
@@ -46,8 +115,21 @@
     applyLang();
   });
   applyLang();
+  document.getElementById("year").textContent = new Date().getFullYear();
 
-  const $catalog = document.getElementById("catalog");
+  /* ---------------- Reveal on scroll (same behaviour as the portfolio) ---------------- */
+
+  document.documentElement.classList.add("js");
+  if ("IntersectionObserver" in window) {
+    const io = new IntersectionObserver((entries) => entries.forEach((e) => {
+      if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+    }), { rootMargin: "0px 0px -8% 0px", threshold: 0.12 });
+    document.querySelectorAll(".reveal").forEach((n) => io.observe(n));
+  } else {
+    document.querySelectorAll(".reveal").forEach((n) => n.classList.add("in"));
+  }
+
+  const $catalog = document.getElementById("gcCatalog");
   const $overlay = document.getElementById("overlay");
   const $stage = document.getElementById("stage");
   const $spinner = document.getElementById("spinner");
@@ -58,8 +140,10 @@
   Promise.all([
     fetch("gifts.json?v=3").then((r) => r.json()),
     fetch("silhouettes.json?v=3").then((r) => r.json()),
+    fetch("showcase.json?v=2").then((r) => r.json()).catch(() => ({})),
+    fetch("process.json?v=1").then((r) => r.json()).catch(() => ({ items: [] })),
   ])
-    .then(([gifts, silhouettes]) => render(gifts.items, silhouettes))
+    .then(([gifts, silhouettes, showcase, process]) => render(gifts.items, silhouettes, showcase, process))
     .catch((err) => {
       $catalog.textContent = "Could not load the catalog.";
       console.error(err);
@@ -67,16 +151,342 @@
 
   /* ---------------- Grid ---------------- */
 
-  function render(items, silhouettes) {
+  function render(items, silhouettes, showcase, process) {
     // One catalog, one grid, in gifts.json order (groups are mixed there on purpose).
-    const grid = el("div", "grid");
+    const grid = el("div", "gc-grid");
     for (const gift of items) grid.append(card(gift, silhouettes[gift.key]));
     $catalog.replaceChildren(grid);
     $catalog.removeAttribute("aria-busy");
+    setupShowcase(items, showcase);
+    setupProcess(items, process.items || []);
+  }
+
+  /* ---------------- Process: one gift, five steps (working frames from Figma, process.json) ---------------- */
+
+  const PROC_UI = {
+    ru: { picked: "в работу", note: "Бриф из рабочего файла Figma" },
+    en: { picked: "picked", note: "Brief from the working Figma file (translated)" },
+  };
+
+  function setupProcess(items, list) {
+    const $tabs = document.getElementById("gcProcTabs");
+    const $proc = $tabs?.closest(".gc-proc");
+    const steps = [1, 2, 3, 4, 5].map((i) => document.getElementById(`gcPs${i}`));
+    const entries = list.map((p) => ({ ...p, gift: items.find((g) => g.key === p.key) })).filter((p) => p.gift);
+    if (!$proc || !entries.length) { $proc?.closest("section")?.remove(); return; }
+    let current = 0;
+
+    const tabs = entries.map((p, i) => {
+      const b = el("button", "chip");
+      b.type = "button";
+      b.setAttribute("role", "tab");
+      b.textContent = p.gift.name;
+      b.addEventListener("click", () => {
+        if (i === current) return;
+        current = i;
+        $proc.classList.add("switching");
+        setTimeout(show, 250);
+      });
+      return b;
+    });
+    $tabs.replaceChildren(...tabs);
+
+    const img = (src, cls) => {
+      const n = el("img", cls);
+      n.src = src; n.alt = ""; n.loading = "lazy"; n.decoding = "async";
+      return n;
+    };
+
+    function show() {
+      const p = entries[current];
+      const base = `assets/process/${p.key}/`;
+      const t = PROC_UI[lang];
+      tabs.forEach((b, i) => b.setAttribute("aria-selected", String(i === current)));
+
+      steps[0].replaceChildren(img(base + "source.webp", "gc-tile big"));
+
+      const brief = el("blockquote", "gc-brief");
+      brief.textContent = `«${p.idea[lang] || p.idea.ru}»`;
+      const note = el("p", "gc-brief-note");
+      note.textContent = t.note;
+      steps[1].replaceChildren(brief, note);
+
+      const drafts = el("div", "gc-strip");
+      for (const d of p.drafts) {
+        const w = el("div", "gc-draft" + (d.picked ? " picked" : ""));
+        if (d.picked) w.dataset.label = t.picked;
+        w.append(img(base + d.src, "gc-tile"));
+        drafts.append(w);
+      }
+      steps[2].replaceChildren(drafts);
+
+      const frames = el("div", "gc-strip gc-frames");
+      p.frames.forEach((f, i) => {
+        if (i) { const a = el("span", "gc-arrow"); a.textContent = "→"; frames.append(a); }
+        frames.append(img(base + f, "gc-tile"));
+      });
+      steps[3].replaceChildren(frames);
+
+      // the finished gift, arriving full screen in the same phone + dating chat as the showcase
+      mini.play(p.gift);
+
+      $proc.classList.remove("switching");
+    }
+
+    const mini = miniPhone();
+    steps[4].replaceChildren(mini.node);
+    show();
+    langHooks.push(show);
+  }
+
+  // A copy of the showcase phone that loops one gift: chat → gift message → full-screen animation.
+  // Full-screen gift video always fills the screen by its long side (object-fit: cover).
+  function miniPhone() {
+    const node = el("div", "gc-devices gc-mini");
+    node.dataset.fit = "cover";
+    node.append(document.querySelector(".gc-phone").cloneNode(true));
+    const video = node.querySelector(".gc-fx-v");
+    const names = [...node.querySelectorAll(".gc-gift-name")];
+    let run = 0, visible = false, gift = null, timers = [];
+    const later = (fn, ms) => timers.push(setTimeout(fn, ms));
+
+    function loop() {
+      const id = ++run;
+      timers.forEach(clearTimeout);
+      timers = [];
+      node.classList.remove("playing", "arrived");
+      video.classList.remove("on");
+      video.pause();
+      if (!gift || !visible) return;
+      names.forEach((n) => { n.textContent = gift.name; });
+      if (reducedMotion.matches) {
+        video.poster = gift.still;
+        node.classList.add("arrived", "playing");
+        video.classList.add("on");
+        return;
+      }
+      const src = isWebKit && gift.full_mov_safari ? gift.full_mov_safari : gift.full_webm;
+      if (!video.src.endsWith(src)) { video.src = src; video.load(); }
+      later(() => node.classList.add("arrived"), 600);
+      later(() => {
+        node.classList.add("playing");
+        video.currentTime = 0;
+        video.play().then(() => id === run && video.classList.add("on")).catch(() => {});
+      }, 1300);
+      video.onended = () => {
+        if (id !== run) return;
+        video.classList.remove("on");
+        later(() => node.classList.remove("playing"), 300);
+        later(loop, 2200);
+      };
+    }
+
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(([e]) => { visible = e.isIntersecting; loop(); }, { threshold: 0.3 }).observe(node);
+    } else {
+      visible = true;
+    }
+    return { node, play(g) { gift = g; loop(); } };
+  }
+
+  /* ---------------- Showcase: laptop + phone, the gift arriving over a dating chat ---------------- */
+
+  // Which gifts play here and how they fit the screen live in showcase.json.
+  // Open the page with ?pick to choose them visually (the choice is kept in this browser
+  // and can be copied or downloaded as a new showcase.json).
+  const PICK_MODE = new URLSearchParams(location.search).has("pick");
+  const PICK_KEY = "gcShowcasePick";
+  // Gifts listed in showcase.json "hires" also have 1080px files (tools/encode_showcase.sh).
+  let hires = new Set();
+  const srcFor = (g) => hires.has(g.key)
+    ? `assets/anim1080/${g.key}.${isWebKit ? "mov" : "webm"}`
+    : (isWebKit && g.full_mov_safari ? g.full_mov_safari : g.full_webm);
+
+  function setupShowcase(items, config) {
+    const $devices = document.getElementById("gcDevices");
+    const $pick = document.getElementById("gcPick");
+    if (!$devices) return;
+    const animated = items.filter((g) => g.full_webm);
+    const byKey = new Map(animated.map((g) => [g.key, g]));
+    const videos = [...$devices.querySelectorAll(".gc-fx-v")];
+    const names = [...$devices.querySelectorAll(".gc-gift-name")];
+    let gifts = [], chips = [], index = 0, run = 0, visible = false, timers = [];
+
+    hires = new Set(config.hires || []);
+    let state = { gifts: config.gifts || [], fit: config.fit || "mixed" };
+    if (PICK_MODE) {
+      try { state = { ...state, ...JSON.parse(store.get(PICK_KEY)) }; } catch {}
+    }
+
+    function apply(save) {
+      if (save) store.set(PICK_KEY, JSON.stringify(state));
+      $devices.dataset.fit = state.fit;
+      gifts = state.gifts.map((k) => byKey.get(k)).filter(Boolean);
+      if (!gifts.length) gifts = animated.slice(0, 6);
+      chips = gifts.map((g, i) => {
+        const b = el("button", "chip");
+        b.type = "button";
+        b.setAttribute("role", "tab");
+        b.textContent = g.name;
+        b.addEventListener("click", () => { index = i; start(); });
+        return b;
+      });
+      $pick.replaceChildren(...chips);
+      index = Math.min(index, gifts.length - 1);
+    }
+
+    const later = (fn, ms) => timers.push(setTimeout(fn, ms));
+    const wait = (ms) => new Promise((res) => later(res, ms));
+    function reset() {
+      timers.forEach(clearTimeout);
+      timers = [];
+      $devices.classList.remove("playing", "arrived");
+      for (const v of videos) { v.classList.remove("on"); v.pause(); }
+    }
+
+    function start() {
+      const id = ++run;
+      reset();
+      const gift = gifts[index];
+      chips.forEach((c, i) => c.setAttribute("aria-selected", String(i === index)));
+      names.forEach((n) => { n.textContent = gift.name; });
+
+      if (reducedMotion.matches) { // a still instead of motion
+        $devices.classList.add("arrived", "playing");
+        for (const v of videos) { v.poster = gift.still; v.classList.add("on"); }
+        return;
+      }
+
+      // Buffer both screens fully before anything moves, so playback never stutters.
+      const ready = Promise.all(videos.map((v) => new Promise((res) => {
+        v.addEventListener("canplaythrough", res, { once: true });
+        v.addEventListener("error", res, { once: true });
+        v.src = srcFor(gift);
+        v.load();
+      })));
+
+      // chat first, then the gift message, then the screen goes to the gift
+      later(() => $devices.classList.add("arrived"), 700);
+      Promise.all([Promise.race([ready, wait(8000)]), wait(1400)]).then(() => {
+        if (id !== run) return;
+        $devices.classList.add("playing");
+        Promise.all(videos.map((v) => { v.currentTime = 0; return v.play().catch(() => {}); })).then(() => {
+          if (id === run) videos.forEach((v) => v.classList.add("on"));
+        });
+        const upcoming = gifts[(index + 1) % gifts.length];
+        if (upcoming !== gift) fetch(srcFor(upcoming)).catch(() => {}); // warm the cache
+
+        let done = false;
+        const next = () => {
+          if (id !== run || done) return;
+          done = true;
+          videos.forEach((x) => x.classList.remove("on"));
+          later(() => $devices.classList.remove("playing"), 300);
+          later(() => {
+            if (id !== run) return;
+            index = (index + 1) % gifts.length;
+            if (visible) start(); else reset();
+          }, 1800);
+        };
+        videos[1].onended = next; // the phone leads; the laptop plays the same file
+        videos[1].onerror = next;
+        later(next, ((videos[1].duration || 8) + 3) * 1000); // never get stuck
+      });
+    }
+
+    apply(false);
+    if (PICK_MODE) buildPicker();
+
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(([e]) => {
+        visible = e.isIntersecting;
+        if (visible && !$devices.classList.contains("arrived")) start();
+        if (!visible) { run++; reset(); }
+      }, { threshold: 0.35 }).observe($devices);
+    } else {
+      visible = true;
+      start();
+    }
+
+    /* ---- ?pick: choose and order the showcase gifts ---- */
+    function buildPicker() {
+      const box = el("div", "gc-picker surface");
+      box.innerHTML = `
+        <div class="gc-picker-head">
+          <div>
+            <p class="eyebrow">Выбор подарков · только для вас</p>
+            <p class="gc-picker-hint">Нажимайте подарки в том порядке, в каком они должны идти. Повторное нажатие убирает. Выбор сразу играет в мокапах и сохраняется в этом браузере.</p>
+          </div>
+          <div class="gc-picker-tools">
+            <span class="gc-picker-fit">
+              <button class="chip" type="button" data-fit="mixed">Телефон по длинной, ноутбук целиком</button>
+              <button class="chip" type="button" data-fit="cover">Везде по длинной</button>
+              <button class="chip" type="button" data-fit="contain">Везде целиком</button>
+            </span>
+            <button class="btn ghost small" type="button" data-act="reset">Как в showcase.json</button>
+            <button class="btn ghost small" type="button" data-act="copy">Скопировать JSON</button>
+            <button class="btn small" type="button" data-act="download">Скачать showcase.json</button>
+          </div>
+        </div>
+        <div class="gc-picker-grid"></div>`;
+      $pick.after(box);
+      const grid = box.querySelector(".gc-picker-grid");
+      const items = animated.map((g) => {
+        const b = el("button", "gc-pk");
+        b.type = "button";
+        b.dataset.key = g.key;
+        b.innerHTML = `<img src="${g.still}" alt="" loading="lazy"><span>${g.name}</span><i></i>`;
+        b.addEventListener("click", () => {
+          const at = state.gifts.indexOf(g.key);
+          if (at >= 0) state.gifts.splice(at, 1);
+          else state.gifts.push(g.key);
+          const keep = gifts[index];
+          apply(true);
+          sync();
+          if (at < 0) index = gifts.indexOf(g); // play the one just added
+          else index = Math.max(0, gifts.indexOf(keep));
+          if (visible || at < 0) start();
+        });
+        grid.append(b);
+        return b;
+      });
+      box.querySelectorAll("[data-fit]").forEach((b) => b.addEventListener("click", () => {
+        state.fit = b.dataset.fit;
+        apply(true);
+        sync();
+      }));
+      const json = () => JSON.stringify({ gifts: gifts.map((g) => g.key), fit: state.fit, hires: [...hires] }, null, 1) + "\n";
+      box.querySelector("[data-act=reset]").addEventListener("click", () => {
+        state = { gifts: [...(config.gifts || [])], fit: config.fit || "mixed" };
+        store.set(PICK_KEY, "");
+        apply(false);
+        sync();
+        start();
+      });
+      box.querySelector("[data-act=copy]").addEventListener("click", (e) => {
+        navigator.clipboard?.writeText(json()).then(() => { e.target.textContent = "Скопировано ✓"; });
+      });
+      box.querySelector("[data-act=download]").addEventListener("click", () => {
+        const a = el("a");
+        a.href = URL.createObjectURL(new Blob([json()], { type: "application/json" }));
+        a.download = "showcase.json";
+        a.click();
+        setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+      });
+      function sync() {
+        items.forEach((b) => {
+          const n = state.gifts.indexOf(b.dataset.key);
+          b.classList.toggle("on", n >= 0);
+          b.querySelector("i").textContent = n >= 0 ? n + 1 : "";
+        });
+        box.querySelectorAll("[data-fit]").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.fit === state.fit)));
+      }
+      sync();
+    }
   }
 
   function card(gift, sil) {
-    const btn = el("button", "card");
+    const btn = el("button", "gc-card");
     btn.type = "button";
     btn.setAttribute("aria-label", gift.full_webm ? `${gift.name} — play animation` : gift.name);
 
@@ -93,7 +503,7 @@
     else img.addEventListener("load", done, { once: true });
     media.append(img);
 
-    const name = el("span", "name");
+    const name = el("span", "gc-name");
     name.textContent = gift.name;
     btn.append(media, name);
 
