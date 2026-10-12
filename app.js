@@ -32,6 +32,14 @@
     "show.text": "A gift message lands in a dating chat, the conversation dims, and a transparent-background animation plays full screen on top. The same in the app and on the web.",
     "show.matches": "Matches", "show.prev1": "sent you a gift",
     "show.match": "You liked each other · today",
+    "proc.eyebrow": "Process",
+    "proc.title": "One gift, five steps",
+    "proc.text": "Every gift takes the same path in Figma: source, brief, chroma-key drafts, key frames and the finished animation. Each step is a selection.",
+    "proc.1t": "Source", "proc.1d": "A static 3D gift as the starting point",
+    "proc.2t": "Idea", "proc.2d": "A short brief: what happens in the frame",
+    "proc.3t": "Drafts", "proc.3d": "Frame variants on chroma key; the best go further",
+    "proc.4t": "Key frames", "proc.4d": "Start, phases and end — the backbone for video generation",
+    "proc.5t": "Result", "proc.5d": "Background cut to alpha, the animation gets its own sound",
     "task.eyebrow": "The task",
     "task.title": "A gift is an emotion that lands in a chat",
     "task.text": "A social app with a lot of content needs a steady flow of gifts: for holidays, weddings, confessions and just because. Every gift lives in three places at once.",
@@ -86,12 +94,14 @@
   const RU = Object.fromEntries($i18n.map((n) => [n.dataset.i18n, n.innerHTML]));
   let lang = store.get("lang") || ((navigator.language || "ru").toLowerCase().startsWith("ru") ? "ru" : "en");
   const $lang = document.getElementById("lang");
+  const langHooks = []; // parts built in JS re-render themselves on a language switch
   function applyLang() {
     const dict = lang === "ru" ? RU : EN;
     document.documentElement.lang = lang;
     for (const n of $i18n) n.innerHTML = dict[n.dataset.i18n] ?? RU[n.dataset.i18n];
     document.querySelector(".tabs")?.setAttribute("aria-label", NAV_LABEL[lang]);
     $lang.textContent = lang === "ru" ? "EN" : "RU";
+    langHooks.forEach((f) => f());
   }
   $lang.addEventListener("click", () => {
     lang = lang === "ru" ? "en" : "ru";
@@ -125,8 +135,9 @@
     fetch("gifts.json?v=3").then((r) => r.json()),
     fetch("silhouettes.json?v=3").then((r) => r.json()),
     fetch("showcase.json?v=2").then((r) => r.json()).catch(() => ({})),
+    fetch("process.json?v=1").then((r) => r.json()).catch(() => ({ items: [] })),
   ])
-    .then(([gifts, silhouettes, showcase]) => render(gifts.items, silhouettes, showcase))
+    .then(([gifts, silhouettes, showcase, process]) => render(gifts.items, silhouettes, showcase, process))
     .catch((err) => {
       $catalog.textContent = "Could not load the catalog.";
       console.error(err);
@@ -134,13 +145,104 @@
 
   /* ---------------- Grid ---------------- */
 
-  function render(items, silhouettes, showcase) {
+  function render(items, silhouettes, showcase, process) {
     // One catalog, one grid, in gifts.json order (groups are mixed there on purpose).
     const grid = el("div", "gc-grid");
     for (const gift of items) grid.append(card(gift, silhouettes[gift.key]));
     $catalog.replaceChildren(grid);
     $catalog.removeAttribute("aria-busy");
     setupShowcase(items, showcase);
+    setupProcess(items, process.items || []);
+  }
+
+  /* ---------------- Process: one gift, five steps (working frames from Figma, process.json) ---------------- */
+
+  const PROC_UI = {
+    ru: { picked: "в работу", note: "Бриф из рабочего файла Figma", send: "Отправить в чат ↗" },
+    en: { picked: "picked", note: "Brief from the working Figma file (translated)", send: "Send in a chat ↗" },
+  };
+
+  function setupProcess(items, list) {
+    const $tabs = document.getElementById("gcProcTabs");
+    const $proc = $tabs?.closest(".gc-proc");
+    const steps = [1, 2, 3, 4, 5].map((i) => document.getElementById(`gcPs${i}`));
+    const entries = list.map((p) => ({ ...p, gift: items.find((g) => g.key === p.key) })).filter((p) => p.gift);
+    if (!$proc || !entries.length) { $proc?.closest("section")?.remove(); return; }
+    let current = 0;
+
+    const tabs = entries.map((p, i) => {
+      const b = el("button", "chip");
+      b.type = "button";
+      b.setAttribute("role", "tab");
+      b.textContent = p.gift.name;
+      b.addEventListener("click", () => {
+        if (i === current) return;
+        current = i;
+        $proc.classList.add("switching");
+        setTimeout(show, 250);
+      });
+      return b;
+    });
+    $tabs.replaceChildren(...tabs);
+
+    const img = (src, cls) => {
+      const n = el("img", cls);
+      n.src = src; n.alt = ""; n.loading = "lazy"; n.decoding = "async";
+      return n;
+    };
+
+    function show() {
+      const p = entries[current];
+      const base = `assets/process/${p.key}/`;
+      const t = PROC_UI[lang];
+      tabs.forEach((b, i) => b.setAttribute("aria-selected", String(i === current)));
+
+      steps[0].replaceChildren(img(base + "source.webp", "gc-tile big"));
+
+      const brief = el("blockquote", "gc-brief");
+      brief.textContent = `«${p.idea[lang] || p.idea.ru}»`;
+      const note = el("p", "gc-brief-note");
+      note.textContent = t.note;
+      steps[1].replaceChildren(brief, note);
+
+      const drafts = el("div", "gc-strip");
+      for (const d of p.drafts) {
+        const w = el("div", "gc-draft" + (d.picked ? " picked" : ""));
+        if (d.picked) w.dataset.label = t.picked;
+        w.append(img(base + d.src, "gc-tile"));
+        drafts.append(w);
+      }
+      steps[2].replaceChildren(drafts);
+
+      const frames = el("div", "gc-strip gc-frames");
+      p.frames.forEach((f, i) => {
+        if (i) { const a = el("span", "gc-arrow"); a.textContent = "→"; frames.append(a); }
+        frames.append(img(base + f, "gc-tile"));
+      });
+      steps[3].replaceChildren(frames);
+
+      const stage = el("div", "gc-result-stage");
+      if (isWebKit || reducedMotion.matches) {
+        stage.append(img(reducedMotion.matches ? p.gift.still : p.gift.preview_webp_safari));
+      } else {
+        const v = el("video");
+        Object.assign(v, { muted: true, loop: true, playsInline: true, autoplay: true, preload: "metadata" });
+        v.src = p.gift.preview_webm;
+        stage.append(v);
+      }
+      const send = el("button", "btn ghost small");
+      send.type = "button";
+      send.textContent = t.send;
+      send.addEventListener("click", () => openOverlay(p.gift, send));
+      const result = el("div", "gc-result");
+      result.append(stage, send);
+      steps[4].replaceChildren(result);
+
+      $proc.classList.remove("switching");
+    }
+
+    show();
+    langHooks.push(show);
   }
 
   /* ---------------- Showcase: laptop + phone, the gift arriving over a dating chat ---------------- */

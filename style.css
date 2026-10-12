@@ -228,6 +228,62 @@ body.locked { overflow: hidden; }
 .gc-board img { width: 100%; aspect-ratio: 1; object-fit: contain; filter: drop-shadow(0 10px 18px rgba(0, 0, 0, .55)); }
 @media (max-width: 860px) { .gc-split { grid-template-columns: 1fr; } }
 
+/* ---------- process: one gift, five steps ---------- */
+.gc-proc-tabs { margin: 0 0 clamp(24px, 3vw, 36px); }
+.gc-steps { margin: 0; padding: 0; list-style: none; max-width: 1080px; margin-inline: auto; }
+.gc-st {
+  display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 16px 40px; align-items: center;
+  padding: 24px 0; border-top: 1px solid var(--line);
+}
+.gc-st-h { display: flex; gap: 16px; align-items: flex-start; }
+.gc-st-h .gc-step { flex: none; margin: 0; }
+.gc-st-h b { display: block; font-weight: var(--fw-medium); font-size: 19px; letter-spacing: var(--track-snug); }
+.gc-st-h small { display: block; margin-top: 4px; color: var(--muted); font-size: 14px; font-weight: var(--fw-light); line-height: 1.45; }
+.gc-st-c { min-width: 0; }
+@media (max-width: 760px) { .gc-st { grid-template-columns: 1fr; } }
+
+/* working frames from Figma keep their chroma-key green on purpose */
+.gc-tile {
+  display: block; width: clamp(104px, 13vw, 172px); aspect-ratio: 1; object-fit: cover; flex: none;
+  border-radius: 14px; background: var(--card-2);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .06);
+  filter: saturate(.72) brightness(.92); /* the key green stays honest but quieter next to Blaze */
+  transition: filter .3s;
+}
+.gc-tile:hover { filter: none; }
+.gc-tile.big { width: clamp(132px, 16vw, 210px); }
+.gc-strip {
+  display: flex; align-items: center; gap: 10px; overflow-x: auto; padding: 8px 2px 10px;
+  scrollbar-width: thin; scrollbar-color: var(--line-strong) transparent;
+}
+.gc-draft { position: relative; flex: none; transition: opacity .3s; }
+.gc-draft:not(.picked) { opacity: .42; }
+.gc-draft:not(.picked):hover { opacity: 1; }
+.gc-draft .gc-tile { width: clamp(88px, 10vw, 128px); }
+.gc-draft.picked .gc-tile { box-shadow: 0 0 0 2px var(--accent), 0 0 22px -6px var(--accent-glow); }
+.gc-draft.picked::after {
+  content: attr(data-label); position: absolute; left: 6px; top: 6px;
+  padding: 3px 7px; border-radius: var(--pill); font: 600 10px/1 var(--font); letter-spacing: .04em;
+  color: var(--white); background: var(--grad-fill);
+}
+.gc-arrow { flex: none; color: var(--accent); font-size: 18px; }
+.gc-frames .gc-tile { width: clamp(96px, 11vw, 150px); }
+.gc-brief {
+  margin: 0; padding: 18px 22px; max-width: 60ch; border-radius: var(--radius);
+  background: var(--card); box-shadow: inset 0 0 0 1px var(--line), inset 3px 0 0 var(--accent);
+  font-size: 17px; font-weight: var(--fw-light); line-height: 1.5; color: var(--gray-100);
+}
+.gc-brief-note { margin: 10px 0 0; font-size: 12px; color: var(--gray-400); }
+.gc-result { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+.gc-result-stage {
+  position: relative; width: clamp(180px, 22vw, 280px); aspect-ratio: 1; border-radius: var(--radius);
+  background: radial-gradient(70% 70% at 50% 60%, rgba(255, 91, 4, .28), transparent 70%), var(--ink-1);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+.gc-result-stage > * { position: absolute; inset: 6%; width: 88%; height: 88%; object-fit: contain; }
+.gc-proc .gc-st-c { transition: opacity .25s ease; }
+.gc-proc.switching .gc-st-c { opacity: 0; }
+
 /* ---------- pipeline ---------- */
 .gc-pipe {
   position: relative; margin: 0; padding: 0; list-style: none;

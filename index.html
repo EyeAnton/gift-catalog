@@ -19,7 +19,7 @@
 <!-- Blaze design system and the site shell (header, footer, CTA) come straight from the portfolio, same origin -->
 <link rel="stylesheet" href="/design-system.css">
 <link rel="stylesheet" href="/style.css">
-<link rel="stylesheet" href="style.css?v=7">
+<link rel="stylesheet" href="style.css?v=8">
 </head>
 <body>
 
@@ -223,6 +223,40 @@
     </div>
   </section>
 
+  <!-- ============ process: one gift, step by step (frames from the Figma working file) ============ -->
+  <section class="block" id="process">
+    <div class="sec-head reveal">
+      <p class="eyebrow" data-i18n="proc.eyebrow">Процесс</p>
+      <h2 data-i18n="proc.title">Один подарок — пять шагов</h2>
+      <p data-i18n="proc.text">Каждый подарок проходит один и тот же путь в Figma: исходник, бриф, черновики на хромакее, ключевые кадры и готовая анимация. На каждом шаге — отбор.</p>
+    </div>
+    <div class="gc-proc reveal">
+      <div class="gc-pick gc-proc-tabs" id="gcProcTabs" role="tablist" aria-label="Gift"></div>
+      <ol class="gc-steps">
+        <li class="gc-st">
+          <div class="gc-st-h"><span class="gc-step">01</span><div><b data-i18n="proc.1t">Исходник</b><small data-i18n="proc.1d">Статичный 3D-подарок — отправная точка</small></div></div>
+          <div class="gc-st-c" id="gcPs1"></div>
+        </li>
+        <li class="gc-st">
+          <div class="gc-st-h"><span class="gc-step">02</span><div><b data-i18n="proc.2t">Идея</b><small data-i18n="proc.2d">Короткий бриф: что происходит в кадре</small></div></div>
+          <div class="gc-st-c" id="gcPs2"></div>
+        </li>
+        <li class="gc-st">
+          <div class="gc-st-h"><span class="gc-step">03</span><div><b data-i18n="proc.3t">Черновики</b><small data-i18n="proc.3d">Варианты кадров на хромакее, в работу идут лучшие</small></div></div>
+          <div class="gc-st-c" id="gcPs3"></div>
+        </li>
+        <li class="gc-st">
+          <div class="gc-st-h"><span class="gc-step">04</span><div><b data-i18n="proc.4t">Ключевые кадры</b><small data-i18n="proc.4d">Начало, фазы и финал — опора для генерации видео</small></div></div>
+          <div class="gc-st-c" id="gcPs4"></div>
+        </li>
+        <li class="gc-st">
+          <div class="gc-st-h"><span class="gc-step">05</span><div><b data-i18n="proc.5t">Результат</b><small data-i18n="proc.5d">Фон вырезан в альфу, у анимации свой звук</small></div></div>
+          <div class="gc-st-c" id="gcPs5"></div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
   <!-- ============ pipeline ============ -->
   <section class="block" id="pipeline">
     <div class="sec-head reveal">
@@ -343,6 +377,6 @@
   <button class="close" id="closeBtn" aria-label="Close">×</button>
 </div>
 
-<script src="app.js?v=6"></script>
+<script src="app.js?v=7"></script>
 </body>
 </html>

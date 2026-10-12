@@ -1,0 +1,212 @@
+{
+ "items": [
+  {
+   "key": "sep__icecream_3d",
+   "idea": {
+    "ru": "В рожок добавляем мороженое и посыпку, мороженое покрывается инеем.",
+    "en": "Fill the cone with ice cream and sprinkles; frost covers the scoop."
+   },
+   "frames": [
+    "k1.webp",
+    "k2.webp",
+    "k3.webp"
+   ],
+   "drafts": [
+    {
+     "src": "d1.webp",
+     "picked": false
+    },
+    {
+     "src": "d2.webp",
+     "picked": true
+    },
+    {
+     "src": "d3.webp",
+     "picked": true
+    },
+    {
+     "src": "d4.webp",
+     "picked": true
+    },
+    {
+     "src": "d5.webp",
+     "picked": false
+    }
+   ]
+  },
+  {
+   "key": "sep__sakura",
+   "idea": {
+    "ru": "Фаза 1 — дерево расцветает. Фаза 2 — лепестки плавно опадают, как во время цветения сакуры.",
+    "en": "Phase 1: the tree blossoms. Phase 2: petals drift down like a sakura in bloom."
+   },
+   "frames": [
+    "k1.webp",
+    "k2.webp",
+    "k3.webp"
+   ],
+   "drafts": [
+    {
+     "src": "d1.webp",
+     "picked": true
+    },
+    {
+     "src": "d2.webp",
+     "picked": true
+    },
+    {
+     "src": "d3.webp",
+     "picked": false
+    },
+    {
+     "src": "d4.webp",
+     "picked": false
+    },
+    {
+     "src": "d5.webp",
+     "picked": true
+    },
+    {
+     "src": "d6.webp",
+     "picked": false
+    },
+    {
+     "src": "d7.webp",
+     "picked": false
+    },
+    {
+     "src": "d8.webp",
+     "picked": false
+    },
+    {
+     "src": "d9.webp",
+     "picked": false
+    }
+   ]
+  },
+  {
+   "key": "sep__love_book_3d",
+   "idea": {
+    "ru": "Фаза 1 — книга открыта, появляется надпись I LOVE YOU и сердечко, ручка улетает из кадра. Фаза 2 — книга закрывается.",
+    "en": "Phase 1: the open book writes I LOVE YOU and a heart, the pen flies off. Phase 2: the book closes."
+   },
+   "frames": [
+    "k1.webp",
+    "k2.webp",
+    "k3.webp",
+    "k4.webp"
+   ],
+   "drafts": [
+    {
+     "src": "d1.webp",
+     "picked": true
+    },
+    {
+     "src": "d2.webp",
+     "picked": false
+    },
+    {
+     "src": "d3.webp",
+     "picked": false
+    },
+    {
+     "src": "d4.webp",
+     "picked": false
+    },
+    {
+     "src": "d5.webp",
+     "picked": false
+    },
+    {
+     "src": "d6.webp",
+     "picked": false
+    },
+    {
+     "src": "d7.webp",
+     "picked": false
+    }
+   ]
+  },
+  {
+   "key": "sep__potion_bon_3d",
+   "idea": {
+    "ru": "Бутылка появилась, открылась — выпускает облако любви. Облако с сердечками заполняет весь кадр.",
+    "en": "The bottle appears and opens, releasing a cloud of love that fills the whole screen."
+   },
+   "frames": [
+    "k1.webp",
+    "k2.webp",
+    "k3.webp"
+   ],
+   "drafts": [
+    {
+     "src": "d1.webp",
+     "picked": false
+    },
+    {
+     "src": "d2.webp",
+     "picked": false
+    },
+    {
+     "src": "d3.webp",
+     "picked": false
+    },
+    {
+     "src": "d4.webp",
+     "picked": false
+    },
+    {
+     "src": "d5.webp",
+     "picked": true
+    },
+    {
+     "src": "d6.webp",
+     "picked": true
+    }
+   ]
+  },
+  {
+   "key": "sep__picnic_bon_3d",
+   "idea": {
+    "ru": "Набор для пикника стоит на красно-белом клетчатом пледе, из корзины сами достаются продукты и раскладываются на пледе.",
+    "en": "A picnic set on a red-and-white blanket; food comes out of the basket by itself and is laid out on the blanket."
+   },
+   "frames": [
+    "k1.webp",
+    "k2.webp",
+    "k3.webp",
+    "k4.webp"
+   ],
+   "drafts": [
+    {
+     "src": "d1.webp",
+     "picked": true
+    },
+    {
+     "src": "d2.webp",
+     "picked": false
+    },
+    {
+     "src": "d3.webp",
+     "picked": true
+    },
+    {
+     "src": "d4.webp",
+     "picked": false
+    },
+    {
+     "src": "d5.webp",
+     "picked": false
+    },
+    {
+     "src": "d6.webp",
+     "picked": false
+    },
+    {
+     "src": "d7.webp",
+     "picked": true
+    }
+   ]
+  }
+ ]
+}
