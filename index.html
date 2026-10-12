@@ -3,14 +3,23 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Virtual Gifts — Anton</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23221c18'/><text x='32' y='45' font-family='Georgia,serif' font-size='38' text-anchor='middle' fill='%23d8b878'>A</text></svg>">
-<meta name="description" content="A catalog of animated virtual gifts. Tap a gift to see it sent in a chat.">
-<meta name="theme-color" content="#14110f">
+<title>Virtual Gifts — Anton Egorov</title>
+<meta name="description" content="Кейс: коллекция анимированных 3D-подарков для соцприложения — стиль, AI-пайплайн, анимация с альфа-каналом и звук. Интерактивный каталог из 56 подарков.">
+<meta name="theme-color" content="#040404">
+<meta property="og:title" content="Virtual Gifts — Anton Egorov">
+<meta property="og:description" content="Анимированные 3D-подарки для соцприложения: от идеи и единого стиля до пакета, который разработчики выкладывают без ручной работы.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://eyeanton.github.io/gift-catalog/">
+<meta property="og:image" content="https://eyeanton.github.io/assets/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23040404'/><text x='32' y='45' font-family='Arial,sans-serif' font-weight='600' font-size='36' text-anchor='middle' fill='%23ff5b04'>A</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=3">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<!-- Blaze design system and the site shell (header, footer, CTA) come straight from the portfolio, same origin -->
+<link rel="stylesheet" href="/design-system.css">
+<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="style.css?v=4">
 </head>
 <body>
 
@@ -18,29 +27,210 @@
 <svg class="defs" aria-hidden="true" focusable="false">
   <defs>
     <linearGradient id="shine" x1="0" y1="0" x2="1" y2="0.35">
-      <stop offset="0" stop-color="#2b2521"/>
-      <stop offset="0.42" stop-color="#2b2521"/>
-      <stop offset="0.5" stop-color="#4a3f36"/>
-      <stop offset="0.58" stop-color="#2b2521"/>
-      <stop offset="1" stop-color="#2b2521"/>
+      <stop offset="0" stop-color="#161616"/>
+      <stop offset="0.42" stop-color="#161616"/>
+      <stop offset="0.5" stop-color="#3a2416"/>
+      <stop offset="0.58" stop-color="#161616"/>
+      <stop offset="1" stop-color="#161616"/>
       <animateTransform id="shineAnim" attributeName="gradientTransform" type="translate"
         from="-1 0" to="1 0" dur="1.6s" repeatCount="indefinite"/>
     </linearGradient>
   </defs>
 </svg>
 
-<header class="hero">
-  <div class="topline">
-    <a class="to-portfolio" href="/#work" data-i18n="back">← Портфолио</a>
-    <button class="lang" id="lang" type="button" aria-label="Switch language">EN</button>
-  </div>
-  <h1>Virtual Gifts</h1>
-  <p class="lede" data-i18n="lede">Анимированные 3D-подарки, которые люди отправляют друг другу в чате. Нажмите на подарок, чтобы увидеть, как он приходит.</p>
+<header class="top">
+  <a class="logo" href="/">Anton<span>.</span></a>
+  <nav class="tabs" aria-label="Разделы">
+    <a href="/" data-i18n="nav.home">Главная</a>
+    <a href="/projects.html" data-i18n="nav.work" aria-current="page">Проекты</a>
+    <a href="/contact.html" data-i18n="nav.contact">Контакты</a>
+  </nav>
+  <button class="lang" id="lang" type="button" aria-label="Switch language">EN</button>
 </header>
 
-<main id="catalog" aria-busy="true"></main>
+<main>
+  <!-- ============ hero ============ -->
+  <section class="gc-hero">
+    <div class="aurora" aria-hidden="true"></div>
+    <a class="gc-crumb" href="/projects.html" data-i18n="crumb">← Все проекты</a>
+    <p class="eyebrow" data-i18n="hero.eyebrow">Кейс · Motion &amp; AI 3D</p>
+    <h1>Virtual <span class="t-grad">Gifts</span></h1>
+    <p class="lead" data-i18n="hero.lead">Коллекция анимированных 3D-подарков для соцприложения: от идеи и единого стиля до пакета, который разработчики выкладывают без ручной работы.</p>
+    <div class="hero-cta">
+      <a class="btn" href="#catalog" data-i18n="hero.try">Отправить подарок ↓</a>
+      <a class="btn ghost" href="#pipeline" data-i18n="hero.how">Как это сделано</a>
+    </div>
 
-<footer class="foot" data-i18n="foot">Анимированные подарки играют со звуком.</footer>
+    <div class="gc-cloud" aria-hidden="true">
+      <img src="assets/thumbs/sep__glass_heart_3d.webp" alt="">
+      <img src="assets/thumbs/wed__wedding_rings.webp" alt="">
+      <img src="assets/thumbs/sep__crown_ai_3d.webp" alt="">
+      <img src="assets/thumbs/wed__wedding_cake.webp" alt="">
+      <img src="assets/thumbs/sep__yacht_3d.webp" alt="">
+      <img src="assets/thumbs/sep__panda_with_heart_ai_3d.webp" alt="">
+      <img src="assets/thumbs/sep__merry_go_round.webp" alt="">
+      <img src="assets/thumbs/wed__wedding_kiss.webp" alt="">
+    </div>
+  </section>
+
+  <!-- ============ facts ============ -->
+  <section class="gc-facts">
+    <dl class="gc-meta surface">
+      <div><dt data-i18n="meta.role">Роль</dt><dd>Senior CG Artist</dd></div>
+      <div><dt data-i18n="meta.company">Формат</dt><dd data-i18n="meta.companyV">In-house · NDA</dd></div>
+      <div><dt data-i18n="meta.when">Период</dt><dd data-i18n="meta.whenV">2025 — 2026</dd></div>
+      <div><dt data-i18n="meta.tools">Инструменты</dt><dd>Kling · Gemini · Blender · After Effects · ffmpeg · Node.js</dd></div>
+    </dl>
+    <div class="stats">
+      <div class="stat reveal"><b>56</b><span data-i18n="stat.gifts">подарков в одном стиле</span></div>
+      <div class="stat reveal" style="--d:80ms"><b>47</b><span data-i18n="stat.anim">анимаций с альфой и звуком</span></div>
+      <div class="stat reveal" style="--d:160ms"><b>~1&nbsp;<small>MB</small></b><span data-i18n="stat.weight">на полноэкранную анимацию</span></div>
+    </div>
+  </section>
+
+  <!-- ============ task ============ -->
+  <section class="block" id="task">
+    <div class="sec-head reveal">
+      <p class="eyebrow" data-i18n="task.eyebrow">Задача</p>
+      <h2 data-i18n="task.title">Подарок — это эмоция, которая приходит в чат</h2>
+      <p data-i18n="task.text">Соцприложению с большим объёмом контента нужен постоянный поток подарков: к праздникам, свадьбам, признаниям и просто так. Каждый подарок живёт в трёх местах сразу.</p>
+    </div>
+    <div class="gc-cols">
+      <article class="gc-point surface reveal">
+        <span class="gc-num">01</span>
+        <h3 data-i18n="task.1t">Маленький в сетке</h3>
+        <p data-i18n="task.1d">В витрине подарок — иконка размером с палец. Силуэт должен читаться сразу, без подписи.</p>
+      </article>
+      <article class="gc-point surface reveal" style="--d:80ms">
+        <span class="gc-num">02</span>
+        <h3 data-i18n="task.2t">Большой поверх чата</h3>
+        <p data-i18n="task.2d">Когда подарок отправлен, он проигрывается на весь экран над перепиской — с прозрачным фоном и звуком.</p>
+      </article>
+      <article class="gc-point surface reveal" style="--d:160ms">
+        <span class="gc-num">03</span>
+        <h3 data-i18n="task.3t">Готовый для разработки</h3>
+        <p data-i18n="task.3d">Мобильные приложения, веб и Figma получают один пакет: файлы под каждую платформу, без ручной доводки.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ style ============ -->
+  <section class="block" id="style">
+    <div class="gc-split">
+      <div class="gc-split-text reveal">
+        <p class="eyebrow" data-i18n="style.eyebrow">Подход и стиль</p>
+        <h2 class="t-h2" data-i18n="style.title">Один стиль на всю коллекцию</h2>
+        <p data-i18n="style.text">Свадебный торт, яхта и панда с сердцем делаются в разное время и разными инструментами, но в чате должны выглядеть как один набор. Поэтому сначала — правила, потом — генерация.</p>
+        <ul class="gc-rules">
+          <li data-i18n="style.r1">Мягкий объёмный 3D и тёплый свет — подарок хочется «взять в руки»</li>
+          <li data-i18n="style.r2">Чистый силуэт без фона: объект обрезан по контуру и центрирован</li>
+          <li data-i18n="style.r3">Короткая анимация с началом и концом — подарок «приходит» и сам исчезает</li>
+          <li data-i18n="style.r4">Свой звук у каждого анимированного подарка</li>
+        </ul>
+      </div>
+      <div class="gc-board surface-glow reveal" style="--d:120ms" aria-hidden="true">
+        <img src="assets/thumbs/wed__wedding_cake.webp" alt="">
+        <img src="assets/thumbs/sep__yacht_3d.webp" alt="">
+        <img src="assets/thumbs/sep__panda_with_heart_ai_3d.webp" alt="">
+        <img src="assets/thumbs/sep__crown_ai_3d.webp" alt="">
+        <img src="assets/thumbs/sep__glass_heart_3d.webp" alt="">
+        <img src="assets/thumbs/wed__wedding_rings.webp" alt="">
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ pipeline ============ -->
+  <section class="block" id="pipeline">
+    <div class="sec-head reveal">
+      <p class="eyebrow" data-i18n="pipe.eyebrow">Пайплайн</p>
+      <h2 data-i18n="pipe.title">От сториборда до файла в приложении</h2>
+      <p data-i18n="pipe.text">Генерацию, хромакей и экспорт связывает скрипт на Node.js, поэтому новый подарок проходит путь целиком, а ручная работа остаётся там, где она нужна: в стиле и анимации.</p>
+    </div>
+    <ol class="gc-pipe">
+      <li class="reveal"><span class="gc-step">01</span><b data-i18n="pipe.1t">Идея и сториборд</b><span data-i18n="pipe.1d">Повод, образ, ключевые кадры</span></li>
+      <li class="reveal" style="--d:60ms"><span class="gc-step">02</span><b data-i18n="pipe.2t">Генерация</b><span data-i18n="pipe.2d">Gemini — промпты и кадры, Kling API — видео</span></li>
+      <li class="reveal" style="--d:120ms"><span class="gc-step">03</span><b data-i18n="pipe.3t">Ревью и доработка</b><span data-i18n="pipe.3d">Blender, монтаж и правки в After Effects</span></li>
+      <li class="reveal" style="--d:180ms"><span class="gc-step">04</span><b data-i18n="pipe.4t">Хромакей</b><span data-i18n="pipe.4d">ffmpeg вырезает фон в альфа-канал</span></li>
+      <li class="reveal" style="--d:240ms"><span class="gc-step">05</span><b data-i18n="pipe.5t">Экспорт</b><span data-i18n="pipe.5d">VP9 alpha · HEVC alpha · WebP · MP3</span></li>
+      <li class="reveal" style="--d:300ms"><span class="gc-step">06</span><b data-i18n="pipe.6t">Пакет</b><span data-i18n="pipe.6d">Манифест JSON + медиа под mobile, web и Figma</span></li>
+    </ol>
+  </section>
+
+  <!-- ============ interactive catalog ============ -->
+  <section class="block" id="catalog">
+    <div class="sec-head reveal">
+      <p class="eyebrow" data-i18n="cat.eyebrow">Интерактивный каталог</p>
+      <h2 data-i18n="cat.title">Отправьте подарок</h2>
+      <p data-i18n="cat.text">Нажмите на любой — он придёт так, как его видит получатель в чате. Анимированные подарки играют со звуком.</p>
+    </div>
+    <div class="gc-catalog" id="gcCatalog" aria-busy="true"></div>
+  </section>
+
+  <!-- ============ delivery ============ -->
+  <section class="block" id="delivery">
+    <div class="sec-head reveal">
+      <p class="eyebrow" data-i18n="tech.eyebrow">Техническая доставка</p>
+      <h2 data-i18n="tech.title">Прозрачный фон в любом браузере</h2>
+      <p data-i18n="tech.text">Каждый подарок собран в нескольких форматах: браузер берёт тот, который умеет показывать с альфа-каналом.</p>
+    </div>
+    <div class="gc-cols">
+      <article class="gc-tech surface reveal">
+        <p class="gc-tech-k" data-i18n="tech.1k">Сетка</p>
+        <h3>WebP · 360px</h3>
+        <p data-i18n="tech.1d">Статичный кадр ~26 KB и SVG-силуэт подарка, который мерцает, пока картинка грузится.</p>
+      </article>
+      <article class="gc-tech surface reveal" style="--d:80ms">
+        <p class="gc-tech-k" data-i18n="tech.2k">Превью при наведении</p>
+        <h3>VP9 alpha · 320px</h3>
+        <p data-i18n="tech.2d">~0.4 MB в Chrome и Firefox; для Safari — анимированный WebP с альфой.</p>
+      </article>
+      <article class="gc-tech surface reveal" style="--d:160ms">
+        <p class="gc-tech-k" data-i18n="tech.3k">Полный экран</p>
+        <h3>VP9 / HEVC alpha · 640px</h3>
+        <p data-i18n="tech.3d">~1 MB на анимацию + MP3 ~190 KB. Звук стартует синхронно с первым кадром.</p>
+      </article>
+    </div>
+    <aside class="gc-callout surface-glow reveal">
+      <p class="eyebrow">Safari &amp; iOS</p>
+      <p data-i18n="tech.safari">Safari проигрывает VP9, но теряет прозрачность — подарок приходит на чёрном квадрате. Поэтому для WebKit — HEVC with alpha. ffmpeg пишет такой поток, который Safari не декодирует, так что .mov собирается через AVFoundation отдельной утилитой на Swift.</p>
+    </aside>
+  </section>
+
+  <!-- ============ result ============ -->
+  <section class="block" id="result">
+    <div class="sec-head reveal">
+      <p class="eyebrow" data-i18n="res.eyebrow">Результат</p>
+      <h2 data-i18n="res.title">Коллекция, которую можно выкладывать</h2>
+    </div>
+    <ul class="gc-results">
+      <li class="reveal"><b data-i18n="res.1t">56 подарков</b><span data-i18n="res.1d">праздники, свадьба, романтика и символы — в одном визуальном языке</span></li>
+      <li class="reveal" style="--d:80ms"><b data-i18n="res.2t">Повторяемый процесс</b><span data-i18n="res.2d">новый подарок проходит тот же пайплайн — от сториборда до готовых файлов</span></li>
+      <li class="reveal" style="--d:160ms"><b data-i18n="res.3t">Ноль ручной упаковки</b><span data-i18n="res.3d">разработчики получают манифест и медиа под каждую платформу</span></li>
+      <li class="reveal" style="--d:240ms"><b data-i18n="res.4t">Работает везде</b><span data-i18n="res.4d">прозрачная анимация со звуком в Chrome, Firefox, Safari и на iPhone</span></li>
+    </ul>
+  </section>
+
+  <!-- ============ next ============ -->
+  <section class="contact">
+    <div class="beams" aria-hidden="true"></div>
+    <p class="eyebrow reveal" data-i18n="next.eyebrow">Следующий проект</p>
+    <h2 class="reveal">Sticker Bot</h2>
+    <p class="reveal" data-i18n="next.text">Telegram-бот, который превращает фото в стикеры и стилизованные портреты через AI-пайплайны.</p>
+    <div class="contact-links reveal">
+      <a class="btn" href="/projects.html" data-i18n="next.all">Все проекты →</a>
+      <a class="btn ghost" href="/contact.html" data-i18n="next.contact">Контакты и CV</a>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="foot-row">
+    <span>© <span id="year">2026</span> Anton Egorov</span>
+    <span data-i18n="foot.note">Сделано без фреймворков · работает на любом устройстве</span>
+    <a href="/design-system.html" data-i18n="foot.ds">Дизайн-система</a>
+  </div>
+  <p class="wordmark" aria-hidden="true">anton</p>
+</footer>
 
 <!-- "Sent in a chat" overlay -->
 <div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-label="Gift preview" hidden>
@@ -62,13 +252,13 @@
       <div class="chat-input"><span class="f">Message…</span><span class="s"></span></div>
     </div>
   </div>
-  <div class="center">
+  <div class="gc-center">
     <div class="stage" id="stage"><div class="spinner" id="spinner" hidden></div></div>
     <p class="caption" id="caption"></p>
   </div>
   <button class="close" id="closeBtn" aria-label="Close">×</button>
 </div>
 
-<script src="app.js?v=3"></script>
+<script src="app.js?v=4"></script>
 </body>
 </html>

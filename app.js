@@ -17,27 +17,75 @@
 
   /* ---------------- Language (shared with the portfolio site via localStorage) ---------------- */
 
-  const UI = {
-    ru: {
-      back: "← Портфолио",
-      lede: "Анимированные 3D-подарки, которые люди отправляют друг другу в чате. Нажмите на подарок, чтобы увидеть, как он приходит.",
-      foot: "Анимированные подарки играют со звуком.",
-    },
-    en: {
-      back: "← Portfolio",
-      lede: "Animated 3D gifts people send each other in a chat. Tap any gift to see it arrive.",
-      foot: "Animated gifts play with sound.",
-    },
+  // Russian is the source: it is written in index.html and read from the DOM once.
+  // English lives here, keyed by data-i18n.
+  const EN = {
+    "nav.home": "Home", "nav.work": "Projects", "nav.contact": "Contact",
+    "crumb": "← All projects",
+    "hero.eyebrow": "Case study · Motion &amp; AI 3D",
+    "hero.lead": "A collection of animated 3D gifts for a social app: from the idea and one shared style to a package developers ship with no manual work.",
+    "hero.try": "Send a gift ↓", "hero.how": "How it was made",
+    "meta.role": "Role", "meta.company": "Format", "meta.companyV": "In-house · NDA", "meta.when": "Period", "meta.whenV": "2025 — 2026", "meta.tools": "Tools",
+    "stat.gifts": "gifts in one style", "stat.anim": "animations with alpha and sound", "stat.weight": "per full-screen animation",
+    "task.eyebrow": "The task",
+    "task.title": "A gift is an emotion that lands in a chat",
+    "task.text": "A social app with a lot of content needs a steady flow of gifts: for holidays, weddings, confessions and just because. Every gift lives in three places at once.",
+    "task.1t": "Tiny in the grid", "task.1d": "In the store a gift is a fingertip-sized icon. The silhouette has to read instantly, without a label.",
+    "task.2t": "Big over the chat", "task.2d": "Once sent, it plays full screen over the conversation — with a transparent background and sound.",
+    "task.3t": "Ready for developers", "task.3d": "Mobile apps, web and Figma get one package: files for every platform, no manual finishing.",
+    "style.eyebrow": "Approach &amp; style",
+    "style.title": "One style for the whole collection",
+    "style.text": "A wedding cake, a yacht and a panda with a heart are made at different times with different tools, yet in a chat they have to look like one set. So rules come first, generation second.",
+    "style.r1": "Soft volumetric 3D and warm light — a gift you want to hold",
+    "style.r2": "A clean silhouette with no background: trimmed to the outline and centred",
+    "style.r3": "A short animation with a start and an end — the gift arrives and leaves on its own",
+    "style.r4": "Every animated gift has its own sound",
+    "pipe.eyebrow": "Pipeline",
+    "pipe.title": "From storyboard to a file in the app",
+    "pipe.text": "A Node.js script ties generation, chroma key and export together, so a new gift goes all the way through, and hands-on work stays where it matters: style and animation.",
+    "pipe.1t": "Idea &amp; storyboard", "pipe.1d": "Occasion, look, key frames",
+    "pipe.2t": "Generation", "pipe.2d": "Gemini for prompts and frames, Kling API for video",
+    "pipe.3t": "Review &amp; polish", "pipe.3d": "Blender, edit and fixes in After Effects",
+    "pipe.4t": "Chroma key", "pipe.4d": "ffmpeg cuts the background into an alpha channel",
+    "pipe.5t": "Export", "pipe.5d": "VP9 alpha · HEVC alpha · WebP · MP3",
+    "pipe.6t": "Package", "pipe.6d": "JSON manifest + media for mobile, web and Figma",
+    "cat.eyebrow": "Interactive catalog",
+    "cat.title": "Send a gift",
+    "cat.text": "Tap any of them — it arrives the way the recipient sees it in a chat. Animated gifts play with sound.",
+    "tech.eyebrow": "Delivery",
+    "tech.title": "A transparent background in any browser",
+    "tech.text": "Every gift ships in several formats, and the browser picks the one it can show with an alpha channel.",
+    "tech.1k": "Grid", "tech.1d": "A ~26 KB still plus the gift's SVG silhouette, which shimmers while the image loads.",
+    "tech.2k": "Hover preview", "tech.2d": "~0.4 MB in Chrome and Firefox; Safari gets an animated WebP with alpha.",
+    "tech.3k": "Full screen", "tech.3d": "~1 MB per animation + a ~190 KB MP3. Sound starts in sync with the first frame.",
+    "tech.safari": "Safari plays VP9 but drops transparency — the gift arrives on a black square. So WebKit gets HEVC with alpha. ffmpeg writes a stream Safari can't decode, so the .mov files are built through AVFoundation with a small Swift tool.",
+    "res.eyebrow": "Result",
+    "res.title": "A collection ready to ship",
+    "res.1t": "56 gifts", "res.1d": "holidays, weddings, romance and symbols — in one visual language",
+    "res.2t": "A repeatable process", "res.2d": "a new gift goes through the same pipeline, from storyboard to finished files",
+    "res.3t": "Zero manual packaging", "res.3d": "developers get a manifest and media for every platform",
+    "res.4t": "Works everywhere", "res.4d": "transparent animation with sound in Chrome, Firefox, Safari and on iPhone",
+    "next.eyebrow": "Next project",
+    "next.text": "A Telegram bot that turns photos into stickers and stylised portraits through AI pipelines.",
+    "next.all": "All projects →", "next.contact": "Contact &amp; CV",
+    "foot.note": "Built without frameworks · works on any device",
+    "foot.ds": "Design system",
   };
+  const NAV_LABEL = { ru: "Разделы", en: "Sections" };
+
   const store = {
     get(k) { try { return localStorage.getItem(k); } catch { return null; } },
     set(k, v) { try { localStorage.setItem(k, v); } catch {} },
   };
+  const $i18n = [...document.querySelectorAll("[data-i18n]")];
+  const RU = Object.fromEntries($i18n.map((n) => [n.dataset.i18n, n.innerHTML]));
   let lang = store.get("lang") || ((navigator.language || "ru").toLowerCase().startsWith("ru") ? "ru" : "en");
   const $lang = document.getElementById("lang");
   function applyLang() {
+    const dict = lang === "ru" ? RU : EN;
     document.documentElement.lang = lang;
-    document.querySelectorAll("[data-i18n]").forEach((n) => { n.textContent = UI[lang][n.dataset.i18n]; });
+    for (const n of $i18n) n.innerHTML = dict[n.dataset.i18n] ?? RU[n.dataset.i18n];
+    document.querySelector(".tabs")?.setAttribute("aria-label", NAV_LABEL[lang]);
     $lang.textContent = lang === "ru" ? "EN" : "RU";
   }
   $lang.addEventListener("click", () => {
@@ -46,8 +94,21 @@
     applyLang();
   });
   applyLang();
+  document.getElementById("year").textContent = new Date().getFullYear();
 
-  const $catalog = document.getElementById("catalog");
+  /* ---------------- Reveal on scroll (same behaviour as the portfolio) ---------------- */
+
+  document.documentElement.classList.add("js");
+  if ("IntersectionObserver" in window) {
+    const io = new IntersectionObserver((entries) => entries.forEach((e) => {
+      if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+    }), { rootMargin: "0px 0px -8% 0px", threshold: 0.12 });
+    document.querySelectorAll(".reveal").forEach((n) => io.observe(n));
+  } else {
+    document.querySelectorAll(".reveal").forEach((n) => n.classList.add("in"));
+  }
+
+  const $catalog = document.getElementById("gcCatalog");
   const $overlay = document.getElementById("overlay");
   const $stage = document.getElementById("stage");
   const $spinner = document.getElementById("spinner");
@@ -69,14 +130,14 @@
 
   function render(items, silhouettes) {
     // One catalog, one grid, in gifts.json order (groups are mixed there on purpose).
-    const grid = el("div", "grid");
+    const grid = el("div", "gc-grid");
     for (const gift of items) grid.append(card(gift, silhouettes[gift.key]));
     $catalog.replaceChildren(grid);
     $catalog.removeAttribute("aria-busy");
   }
 
   function card(gift, sil) {
-    const btn = el("button", "card");
+    const btn = el("button", "gc-card");
     btn.type = "button";
     btn.setAttribute("aria-label", gift.full_webm ? `${gift.name} — play animation` : gift.name);
 
@@ -93,7 +154,7 @@
     else img.addEventListener("load", done, { once: true });
     media.append(img);
 
-    const name = el("span", "name");
+    const name = el("span", "gc-name");
     name.textContent = gift.name;
     btn.append(media, name);
 
