@@ -124,8 +124,9 @@
   Promise.all([
     fetch("gifts.json?v=3").then((r) => r.json()),
     fetch("silhouettes.json?v=3").then((r) => r.json()),
+    fetch("showcase.json?v=1").then((r) => r.json()).catch(() => ({})),
   ])
-    .then(([gifts, silhouettes]) => render(gifts.items, silhouettes))
+    .then(([gifts, silhouettes, showcase]) => render(gifts.items, silhouettes, showcase))
     .catch((err) => {
       $catalog.textContent = "Could not load the catalog.";
       console.error(err);
@@ -133,39 +134,58 @@
 
   /* ---------------- Grid ---------------- */
 
-  function render(items, silhouettes) {
+  function render(items, silhouettes, showcase) {
     // One catalog, one grid, in gifts.json order (groups are mixed there on purpose).
     const grid = el("div", "gc-grid");
     for (const gift of items) grid.append(card(gift, silhouettes[gift.key]));
     $catalog.replaceChildren(grid);
     $catalog.removeAttribute("aria-busy");
-    setupShowcase(items);
+    setupShowcase(items, showcase);
   }
 
   /* ---------------- Showcase: laptop + phone, the gift arriving over a dating chat ---------------- */
 
-  const SHOWCASE = ["Wedding Rings", "Red Roses", "Teddy Bear", "Glass Heart", "Ticket to Paris", "Yacht"];
+  // Which gifts play here and how they fit the screen live in showcase.json.
+  // Open the page with ?pick to choose them visually (the choice is kept in this browser
+  // and can be copied or downloaded as a new showcase.json).
+  const PICK_MODE = new URLSearchParams(location.search).has("pick");
+  const PICK_KEY = "gcShowcasePick";
+  const srcFor = (g) => (isWebKit && g.full_mov_safari ? g.full_mov_safari : g.full_webm);
 
-  function setupShowcase(items) {
+  function setupShowcase(items, config) {
     const $devices = document.getElementById("gcDevices");
     const $pick = document.getElementById("gcPick");
-    const gifts = SHOWCASE.map((n) => items.find((g) => g.name === n && g.full_webm)).filter(Boolean);
-    if (!$devices || !gifts.length) return;
+    if (!$devices) return;
+    const animated = items.filter((g) => g.full_webm);
+    const byKey = new Map(animated.map((g) => [g.key, g]));
     const videos = [...$devices.querySelectorAll(".gc-fx-v")];
     const names = [...$devices.querySelectorAll(".gc-gift-name")];
-    let index = 0, run = 0, visible = false, timers = [];
+    let gifts = [], chips = [], index = 0, run = 0, visible = false, timers = [];
 
-    const chips = gifts.map((g, i) => {
-      const b = el("button", "chip");
-      b.type = "button";
-      b.setAttribute("role", "tab");
-      b.textContent = g.name;
-      b.addEventListener("click", () => { index = i; start(); });
-      $pick.append(b);
-      return b;
-    });
+    let state = { gifts: config.gifts || [], fit: config.fit || "cover" };
+    if (PICK_MODE) {
+      try { state = { ...state, ...JSON.parse(store.get(PICK_KEY)) }; } catch {}
+    }
+
+    function apply(save) {
+      if (save) store.set(PICK_KEY, JSON.stringify(state));
+      $devices.dataset.fit = state.fit;
+      gifts = state.gifts.map((k) => byKey.get(k)).filter(Boolean);
+      if (!gifts.length) gifts = animated.slice(0, 6);
+      chips = gifts.map((g, i) => {
+        const b = el("button", "chip");
+        b.type = "button";
+        b.setAttribute("role", "tab");
+        b.textContent = g.name;
+        b.addEventListener("click", () => { index = i; start(); });
+        return b;
+      });
+      $pick.replaceChildren(...chips);
+      index = Math.min(index, gifts.length - 1);
+    }
 
     const later = (fn, ms) => timers.push(setTimeout(fn, ms));
+    const wait = (ms) => new Promise((res) => later(res, ms));
     function reset() {
       timers.forEach(clearTimeout);
       timers = [];
@@ -185,22 +205,26 @@
         for (const v of videos) { v.poster = gift.still; v.classList.add("on"); }
         return;
       }
-      const src = isWebKit && gift.full_mov_safari ? gift.full_mov_safari : gift.full_webm;
-      for (const v of videos) { v.src = src; v.load(); }
+
+      // Buffer both screens fully before anything moves, so playback never stutters.
+      const ready = Promise.all(videos.map((v) => new Promise((res) => {
+        v.addEventListener("canplaythrough", res, { once: true });
+        v.addEventListener("error", res, { once: true });
+        v.src = srcFor(gift);
+        v.load();
+      })));
 
       // chat first, then the gift message, then the screen goes to the gift
       later(() => $devices.classList.add("arrived"), 700);
-      later(() => {
+      Promise.all([Promise.race([ready, wait(8000)]), wait(1400)]).then(() => {
+        if (id !== run) return;
         $devices.classList.add("playing");
-        let shown = false;
-        for (const v of videos) {
-          v.currentTime = 0;
-          v.play().then(() => {
-            if (id !== run || shown) return;
-            shown = true;
-            videos.forEach((x) => x.classList.add("on"));
-          }).catch(() => {});
-        }
+        Promise.all(videos.map((v) => { v.currentTime = 0; return v.play().catch(() => {}); })).then(() => {
+          if (id === run) videos.forEach((v) => v.classList.add("on"));
+        });
+        const upcoming = gifts[(index + 1) % gifts.length];
+        if (upcoming !== gift) fetch(srcFor(upcoming)).catch(() => {}); // warm the cache
+
         let done = false;
         const next = () => {
           if (id !== run || done) return;
@@ -215,9 +239,12 @@
         };
         videos[1].onended = next; // the phone leads; the laptop plays the same file
         videos[1].onerror = next;
-        later(next, 12000); // never get stuck on a video that won't play
-      }, 1400);
+        later(next, ((videos[1].duration || 8) + 3) * 1000); // never get stuck
+      });
     }
+
+    apply(false);
+    if (PICK_MODE) buildPicker();
 
     if ("IntersectionObserver" in window) {
       new IntersectionObserver(([e]) => {
@@ -228,6 +255,81 @@
     } else {
       visible = true;
       start();
+    }
+
+    /* ---- ?pick: choose and order the showcase gifts ---- */
+    function buildPicker() {
+      const box = el("div", "gc-picker surface");
+      box.innerHTML = `
+        <div class="gc-picker-head">
+          <div>
+            <p class="eyebrow">Выбор подарков · только для вас</p>
+            <p class="gc-picker-hint">Нажимайте подарки в том порядке, в каком они должны идти. Повторное нажатие убирает. Выбор сразу играет в мокапах и сохраняется в этом браузере.</p>
+          </div>
+          <div class="gc-picker-tools">
+            <span class="gc-picker-fit">
+              <button class="chip" type="button" data-fit="cover">По длинной стороне</button>
+              <button class="chip" type="button" data-fit="contain">Целиком</button>
+            </span>
+            <button class="btn ghost small" type="button" data-act="reset">Как в showcase.json</button>
+            <button class="btn ghost small" type="button" data-act="copy">Скопировать JSON</button>
+            <button class="btn small" type="button" data-act="download">Скачать showcase.json</button>
+          </div>
+        </div>
+        <div class="gc-picker-grid"></div>`;
+      $pick.after(box);
+      const grid = box.querySelector(".gc-picker-grid");
+      const items = animated.map((g) => {
+        const b = el("button", "gc-pk");
+        b.type = "button";
+        b.dataset.key = g.key;
+        b.innerHTML = `<img src="${g.still}" alt="" loading="lazy"><span>${g.name}</span><i></i>`;
+        b.addEventListener("click", () => {
+          const at = state.gifts.indexOf(g.key);
+          if (at >= 0) state.gifts.splice(at, 1);
+          else state.gifts.push(g.key);
+          const keep = gifts[index];
+          apply(true);
+          sync();
+          if (at < 0) index = gifts.indexOf(g); // play the one just added
+          else index = Math.max(0, gifts.indexOf(keep));
+          if (visible || at < 0) start();
+        });
+        grid.append(b);
+        return b;
+      });
+      box.querySelectorAll("[data-fit]").forEach((b) => b.addEventListener("click", () => {
+        state.fit = b.dataset.fit;
+        apply(true);
+        sync();
+      }));
+      const json = () => JSON.stringify({ gifts: gifts.map((g) => g.key), fit: state.fit }, null, 1) + "\n";
+      box.querySelector("[data-act=reset]").addEventListener("click", () => {
+        state = { gifts: [...(config.gifts || [])], fit: config.fit || "cover" };
+        store.set(PICK_KEY, "");
+        apply(false);
+        sync();
+        start();
+      });
+      box.querySelector("[data-act=copy]").addEventListener("click", (e) => {
+        navigator.clipboard?.writeText(json()).then(() => { e.target.textContent = "Скопировано ✓"; });
+      });
+      box.querySelector("[data-act=download]").addEventListener("click", () => {
+        const a = el("a");
+        a.href = URL.createObjectURL(new Blob([json()], { type: "application/json" }));
+        a.download = "showcase.json";
+        a.click();
+        setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+      });
+      function sync() {
+        items.forEach((b) => {
+          const n = state.gifts.indexOf(b.dataset.key);
+          b.classList.toggle("on", n >= 0);
+          b.querySelector("i").textContent = n >= 0 ? n + 1 : "";
+        });
+        box.querySelectorAll("[data-fit]").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.fit === state.fit)));
+      }
+      sync();
     }
   }
 
