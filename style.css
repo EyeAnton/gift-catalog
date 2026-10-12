@@ -61,6 +61,101 @@ body.locked { overflow: hidden; }
 .gc-facts .stats { padding: 0; }
 .stat b small { font-size: .45em; letter-spacing: 0; }
 
+/* ---------- showcase: laptop + phone mockups ---------- */
+.gc-devices {
+  position: relative; max-width: 1120px; margin: 0 auto; padding: 0 19% 4% 0;
+}
+.gc-devices::before {
+  /* ember floor under the devices */
+  content: ""; position: absolute; inset: 30% -6% -10%; z-index: -1; pointer-events: none;
+  background: radial-gradient(60% 50% at 50% 70%, rgba(255, 91, 4, .35), transparent 70%);
+  filter: blur(30px);
+}
+.gc-lid {
+  padding: 1.4%; border-radius: 18px 18px 6px 6px;
+  background: linear-gradient(180deg, #2a2a2a, #141414);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .08), 0 40px 80px -30px rgba(0, 0, 0, .9);
+}
+.gc-base {
+  height: 14px; margin: 0 -7%; border-radius: 2px 2px 14px 14px;
+  background: linear-gradient(180deg, #3a3a3a, #161616 60%, #0b0b0b);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, .8);
+}
+.gc-base::before { content: ""; display: block; width: 16%; height: 5px; margin: 0 auto; border-radius: 0 0 8px 8px; background: #0e0e0e; }
+.gc-phone {
+  position: absolute; right: 0; bottom: 0; width: 25%;
+  padding: 1.3%; border-radius: 15% / 7%;
+  background: linear-gradient(160deg, #3a3a3a, #121212 40%, #1d1d1d);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .1), -30px 40px 80px -30px rgba(0, 0, 0, .95), 0 0 60px -20px rgba(255, 91, 4, .35);
+}
+@media (max-width: 640px) {
+  .gc-devices { padding: 0 0 62%; }
+  .gc-phone { width: 46%; right: 4%; }
+}
+
+/* screens: everything inside scales with the screen width
+   (the frame is the container: its content box is exactly the screen) */
+.gc-lid, .gc-phone { container-type: inline-size; }
+.gc-screen {
+  position: relative; overflow: hidden;
+  background: #0d0d0f; color: var(--text); font-family: var(--font); line-height: 1.3;
+}
+.gc-web { aspect-ratio: 16 / 10; border-radius: 6px; font-size: 1.45cqw; display: flex; flex-direction: column; }
+.gc-mob { aspect-ratio: 9 / 19.5; border-radius: 13% / 6%; font-size: 4.6cqw; display: flex; flex-direction: column; }
+.gc-screen p { margin: 0; }
+.gc-screen small { display: block; color: var(--gray-400); font-size: .78em; }
+.gc-screen b { font-weight: var(--fw-medium); }
+
+.gc-bar { display: flex; align-items: center; gap: .5em; padding: .7em 1em; background: #161618; border-bottom: 1px solid #ffffff10; }
+.gc-bar i { width: .75em; height: .75em; border-radius: 50%; background: #3a3a3a; }
+.gc-bar span { flex: 0 1 40%; height: 1.5em; margin: 0 auto; border-radius: 1em; background: #222226; }
+.gc-app { flex: 1; display: grid; grid-template-columns: 30% 1fr; min-height: 0; }
+.gc-side { padding: 1.2em .8em; border-right: 1px solid #ffffff10; background: #101012; }
+.gc-side-h { padding: 0 .5em .8em; font-weight: var(--fw-medium); font-size: 1.2em; }
+.gc-row { display: flex; align-items: center; gap: .7em; padding: .6em .5em; border-radius: .7em; }
+.gc-row.on { background: rgba(255, 91, 4, .12); }
+.gc-row.on small { color: var(--blaze-300); }
+.gc-av {
+  flex: none; display: grid; place-items: center; width: 2.6em; height: 2.6em; border-radius: 50%;
+  font-weight: var(--fw-semibold); color: rgba(0, 0, 0, .55);
+}
+.gc-av.a1 { background: linear-gradient(135deg, #ffbe99, #ff5b04); }
+.gc-av.a2 { background: linear-gradient(135deg, #b9d7ff, #5a7fd6); }
+.gc-av.a3 { background: linear-gradient(135deg, #f7c6e0, #c25b93); }
+.gc-av.a4 { background: linear-gradient(135deg, #c9f0d0, #4fa36a); }
+
+.gc-thread { display: flex; flex-direction: column; min-height: 0; }
+.gc-mob .gc-thread-h, .gc-web .gc-thread-h { display: flex; align-items: center; gap: .7em; padding: .9em 1.1em; border-bottom: 1px solid #ffffff10; }
+.gc-thread-h small { color: var(--success); }
+.gc-like { margin-left: auto; font-style: normal; color: var(--accent); font-size: 1.3em; }
+.gc-back { width: .6em; height: .6em; border-left: 2px solid var(--accent); border-bottom: 2px solid var(--accent); transform: rotate(45deg); margin: 0 .2em 0 .3em; }
+.gc-status { display: flex; align-items: center; justify-content: space-between; padding: .7em 1.6em .3em; font-size: .8em; font-weight: var(--fw-medium); }
+.gc-notch { width: 32%; height: 1.5em; border-radius: 1em; background: #000; }
+.gc-msgs { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; gap: .55em; padding: 1em; overflow: hidden; }
+.gc-match { align-self: center; margin-bottom: auto !important; font-size: .75em; color: var(--blaze-300); letter-spacing: .02em; }
+.gc-m { max-width: 76%; padding: .6em .9em; border-radius: 1.1em; }
+.gc-m.in { align-self: flex-start; background: #1e1e22; border-bottom-left-radius: .35em; }
+.gc-m.out { align-self: flex-end; background: var(--grad-fill); border-bottom-right-radius: .35em; }
+.gc-gift-msg { display: flex; gap: .5em; align-items: center; box-shadow: inset 0 0 0 1px rgba(255, 91, 4, .5); color: var(--gray-100); }
+.gc-gift-msg b { color: var(--white); }
+.gc-input { display: flex; align-items: center; gap: .6em; padding: .7em 1em 1em; }
+.gc-input span { flex: 1; padding: .7em 1em; border-radius: 2em; background: #1a1a1e; color: var(--gray-400); }
+.gc-input i { width: 2.4em; height: 2.4em; border-radius: 50%; background: var(--grad-fill); }
+
+/* the gift layer: dims the chat and plays over the whole screen */
+.gc-fx {
+  position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none;
+  background: rgba(4, 4, 4, 0); transition: background .5s ease, backdrop-filter .5s ease;
+}
+.gc-fx video { width: 78%; aspect-ratio: 1; object-fit: contain; opacity: 0; transform: scale(.92); transition: opacity .35s ease, transform .6s var(--ease); }
+.gc-web .gc-fx video { width: auto; height: 78%; }
+.gc-devices.playing .gc-fx { background: rgba(4, 4, 4, .66); backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px); }
+.gc-devices.playing .gc-fx video.on { opacity: 1; transform: none; }
+.gc-gift-msg { transition: opacity .4s ease; }
+.gc-devices:not(.arrived) .gc-gift-msg { opacity: 0; }
+
+.gc-pick { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: clamp(28px, 4vw, 44px); }
+
 /* ---------- cards: task & delivery ---------- */
 .gc-cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
 @media (max-width: 860px) { .gc-cols { grid-template-columns: 1fr; } }

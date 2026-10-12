@@ -88,6 +88,67 @@
     </div>
   </section>
 
+  <!-- ============ showcase: the gift as the recipient sees it ============ -->
+  <section class="block" id="showcase">
+    <div class="sec-head reveal">
+      <p class="eyebrow" data-i18n="show.eyebrow">Как это видит получатель</p>
+      <h2 data-i18n="show.title">Весь экран — подарку</h2>
+      <p data-i18n="show.text">Сообщение с подарком приходит в дейтинг-чат, переписка гаснет, и поверх неё на весь экран проигрывается анимация с прозрачным фоном. Одинаково в приложении и в вебе.</p>
+    </div>
+
+    <div class="gc-devices reveal" id="gcDevices">
+      <!-- desktop: web version of the chat -->
+      <div class="gc-laptop" aria-hidden="true">
+        <div class="gc-lid">
+          <div class="gc-screen gc-web">
+            <div class="gc-bar"><i></i><i></i><i></i><span></span></div>
+            <div class="gc-app">
+              <aside class="gc-side">
+                <p class="gc-side-h" data-i18n="show.matches">Пары</p>
+                <div class="gc-row on"><span class="gc-av a1">M</span><span><b>Mia</b><small data-i18n="show.prev1">отправила подарок</small></span></div>
+                <div class="gc-row"><span class="gc-av a2">L</span><span><b>Leo</b><small>See you Friday?</small></span></div>
+                <div class="gc-row"><span class="gc-av a3">S</span><span><b>Sofia</b><small>Haha, same 😄</small></span></div>
+                <div class="gc-row"><span class="gc-av a4">D</span><span><b>Daniel</b><small>New match</small></span></div>
+              </aside>
+              <div class="gc-thread">
+                <div class="gc-thread-h"><span class="gc-av a1">M</span><span><b>Mia, 27</b><small>online</small></span><i class="gc-like">♥</i></div>
+                <div class="gc-msgs">
+                  <p class="gc-match" data-i18n="show.match">Вы понравились друг другу · сегодня</p>
+                  <p class="gc-m in">Hi! Loved your photos from Lisbon 🌊</p>
+                  <p class="gc-m out">Thanks! You've been there too?</p>
+                  <p class="gc-m in">Last summer. Best pastel de nata ever</p>
+                  <p class="gc-m in gc-gift-msg">🎁 <span>Mia sent you <b class="gc-gift-name">a gift</b></span></p>
+                </div>
+                <div class="gc-input"><span>Message…</span><i></i></div>
+              </div>
+            </div>
+            <div class="gc-fx"><video class="gc-fx-v" muted playsinline preload="auto"></video></div>
+          </div>
+        </div>
+        <div class="gc-base"></div>
+      </div>
+
+      <!-- mobile app -->
+      <div class="gc-phone" aria-hidden="true">
+        <div class="gc-screen gc-mob">
+          <div class="gc-status"><span>9:41</span><i class="gc-notch"></i><span>●●●</span></div>
+          <div class="gc-thread-h"><i class="gc-back"></i><span class="gc-av a1">M</span><span><b>Mia, 27</b><small>online</small></span><i class="gc-like">♥</i></div>
+          <div class="gc-msgs">
+            <p class="gc-match" data-i18n="show.match">Вы понравились друг другу · сегодня</p>
+            <p class="gc-m in">Hi! Loved your photos from Lisbon 🌊</p>
+            <p class="gc-m out">Thanks! You've been there too?</p>
+            <p class="gc-m in">Last summer. Best pastel de nata ever</p>
+            <p class="gc-m in gc-gift-msg">🎁 <span>Mia sent you <b class="gc-gift-name">a gift</b></span></p>
+          </div>
+          <div class="gc-input"><span>Message…</span><i></i></div>
+          <div class="gc-fx"><video class="gc-fx-v" muted playsinline preload="auto"></video></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="gc-pick" id="gcPick" role="tablist" aria-label="Gift"></div>
+  </section>
+
   <!-- ============ task ============ -->
   <section class="block" id="task">
     <div class="sec-head reveal">

@@ -27,6 +27,11 @@
     "hero.try": "Send a gift ↓", "hero.how": "How it was made",
     "meta.role": "Role", "meta.company": "Format", "meta.companyV": "In-house · NDA", "meta.when": "Period", "meta.whenV": "2025 — 2026", "meta.tools": "Tools",
     "stat.gifts": "gifts in one style", "stat.anim": "animations with alpha and sound", "stat.weight": "per full-screen animation",
+    "show.eyebrow": "What the recipient sees",
+    "show.title": "The whole screen belongs to the gift",
+    "show.text": "A gift message lands in a dating chat, the conversation dims, and a transparent-background animation plays full screen on top. The same in the app and on the web.",
+    "show.matches": "Matches", "show.prev1": "sent you a gift",
+    "show.match": "You liked each other · today",
     "task.eyebrow": "The task",
     "task.title": "A gift is an emotion that lands in a chat",
     "task.text": "A social app with a lot of content needs a steady flow of gifts: for holidays, weddings, confessions and just because. Every gift lives in three places at once.",
@@ -134,6 +139,96 @@
     for (const gift of items) grid.append(card(gift, silhouettes[gift.key]));
     $catalog.replaceChildren(grid);
     $catalog.removeAttribute("aria-busy");
+    setupShowcase(items);
+  }
+
+  /* ---------------- Showcase: laptop + phone, the gift arriving over a dating chat ---------------- */
+
+  const SHOWCASE = ["Wedding Rings", "Red Roses", "Teddy Bear", "Glass Heart", "Ticket to Paris", "Yacht"];
+
+  function setupShowcase(items) {
+    const $devices = document.getElementById("gcDevices");
+    const $pick = document.getElementById("gcPick");
+    const gifts = SHOWCASE.map((n) => items.find((g) => g.name === n && g.full_webm)).filter(Boolean);
+    if (!$devices || !gifts.length) return;
+    const videos = [...$devices.querySelectorAll(".gc-fx-v")];
+    const names = [...$devices.querySelectorAll(".gc-gift-name")];
+    let index = 0, run = 0, visible = false, timers = [];
+
+    const chips = gifts.map((g, i) => {
+      const b = el("button", "chip");
+      b.type = "button";
+      b.setAttribute("role", "tab");
+      b.textContent = g.name;
+      b.addEventListener("click", () => { index = i; start(); });
+      $pick.append(b);
+      return b;
+    });
+
+    const later = (fn, ms) => timers.push(setTimeout(fn, ms));
+    function reset() {
+      timers.forEach(clearTimeout);
+      timers = [];
+      $devices.classList.remove("playing", "arrived");
+      for (const v of videos) { v.classList.remove("on"); v.pause(); }
+    }
+
+    function start() {
+      const id = ++run;
+      reset();
+      const gift = gifts[index];
+      chips.forEach((c, i) => c.setAttribute("aria-selected", String(i === index)));
+      names.forEach((n) => { n.textContent = gift.name; });
+
+      if (reducedMotion.matches) { // a still instead of motion
+        $devices.classList.add("arrived", "playing");
+        for (const v of videos) { v.poster = gift.still; v.classList.add("on"); }
+        return;
+      }
+      const src = isWebKit && gift.full_mov_safari ? gift.full_mov_safari : gift.full_webm;
+      for (const v of videos) { v.src = src; v.load(); }
+
+      // chat first, then the gift message, then the screen goes to the gift
+      later(() => $devices.classList.add("arrived"), 700);
+      later(() => {
+        $devices.classList.add("playing");
+        let shown = false;
+        for (const v of videos) {
+          v.currentTime = 0;
+          v.play().then(() => {
+            if (id !== run || shown) return;
+            shown = true;
+            videos.forEach((x) => x.classList.add("on"));
+          }).catch(() => {});
+        }
+        let done = false;
+        const next = () => {
+          if (id !== run || done) return;
+          done = true;
+          videos.forEach((x) => x.classList.remove("on"));
+          later(() => $devices.classList.remove("playing"), 300);
+          later(() => {
+            if (id !== run) return;
+            index = (index + 1) % gifts.length;
+            if (visible) start(); else reset();
+          }, 1800);
+        };
+        videos[1].onended = next; // the phone leads; the laptop plays the same file
+        videos[1].onerror = next;
+        later(next, 12000); // never get stuck on a video that won't play
+      }, 1400);
+    }
+
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(([e]) => {
+        visible = e.isIntersecting;
+        if (visible && !$devices.classList.contains("arrived")) start();
+        if (!visible) { run++; reset(); }
+      }, { threshold: 0.35 }).observe($devices);
+    } else {
+      visible = true;
+      start();
+    }
   }
 
   function card(gift, sil) {
