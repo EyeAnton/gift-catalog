@@ -27,21 +27,27 @@ body.locked { overflow: hidden; }
 /* one row of gifts drifting right to left, very slowly; the track holds the set twice
    and moves by exactly one set, so the loop has no seam */
 .gc-cloud {
-  width: calc(100% + 2 * var(--gutter)); margin: clamp(40px, 6vw, 72px) calc(var(--gutter) * -1) 0;
+  --size: clamp(76px, 9vw, 120px); --gap: clamp(20px, 3vw, 40px); --zoom-room: calc(var(--size) * .25);
+  width: calc(100% + 2 * var(--gutter));
+  margin: calc(clamp(40px, 6vw, 72px) - var(--zoom-room)) calc(var(--gutter) * -1) calc(var(--zoom-room) * -1);
   overflow: hidden;
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
           mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
 }
 .gc-cloud-track {
-  --size: clamp(76px, 9vw, 120px); --gap: clamp(20px, 3vw, 40px);
-  display: flex; gap: var(--gap); width: max-content; padding: 10px 0 24px;
+  display: flex; gap: var(--gap); width: max-content;
+  padding: calc(var(--zoom-room) + 10px) 0 calc(var(--zoom-room) + 24px);
   animation: gc-drift 120s linear infinite;
   will-change: transform;
 }
+/* hover: the belt stops and the gift under the cursor grows */
+.gc-cloud-track:hover { animation-play-state: paused; }
 .gc-cloud img {
   flex: none; width: var(--size); height: var(--size); object-fit: contain;
   filter: drop-shadow(0 14px 22px rgba(0, 0, 0, .6));
+  position: relative; transition: transform .35s cubic-bezier(.2, .8, .2, 1);
 }
+.gc-cloud img:hover { transform: scale(1.45); z-index: 1; }
 @keyframes gc-drift { to { transform: translateX(calc(-50% - var(--gap) / 2)); } }
 
 /* ---------- facts ---------- */
