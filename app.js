@@ -129,11 +129,60 @@
     document.querySelectorAll(".reveal").forEach((n) => n.classList.add("in"));
   }
 
+  /* ---------------- Sound: one small toggle for every gift animation on the page ---------------- */
+
+  // Gift sounds always run (muted when the toggle is off), so switching on mid-animation stays in sync.
+  // Browsers allow sound only after the first click on the page; until then gifts play silently.
+  const SPEAKER = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/>';
+  const sound = (() => {
+    let on = store.get("gcSound") !== "off";
+    const live = new Set();
+    const btn = el("button", "gc-sound");
+    btn.type = "button";
+    const paint = () => {
+      btn.innerHTML = SPEAKER + (on
+        ? '<path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>'
+        : '<path d="M16 9.5l5 5M21 9.5l-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>');
+      btn.setAttribute("aria-pressed", String(on));
+      btn.setAttribute("aria-label", lang === "ru" ? (on ? "Выключить звук" : "Включить звук") : (on ? "Mute" : "Unmute"));
+    };
+    btn.addEventListener("click", () => {
+      on = !on;
+      store.set("gcSound", on ? "on" : "off");
+      paint();
+      for (const a of live) { a.muted = !on; if (on) a.play().catch(() => {}); }
+    });
+    paint();
+    langHooks.push(paint);
+    document.body.append(btn);
+    const api = {
+      // take over an Audio that is (about to be) playing in sync with a gift animation
+      track(a) {
+        a.muted = !on;
+        live.add(a);
+        a.addEventListener("ended", () => live.delete(a), { once: true });
+        return a;
+      },
+      play(src) {
+        if (!src) return null;
+        const a = api.track(new Audio(src));
+        a.play().catch(() => {});
+        return a;
+      },
+      stop(a) {
+        if (!a) return null;
+        a.pause();
+        live.delete(a);
+        return null;
+      },
+    };
+    return api;
+  })();
+
   const $catalog = document.getElementById("gcCatalog");
   const $overlay = document.getElementById("overlay");
   const $stage = document.getElementById("stage");
   const $spinner = document.getElementById("spinner");
-  const $caption = document.getElementById("caption");
   const $sentName = document.getElementById("sentName");
   const $closeBtn = document.getElementById("closeBtn");
 
@@ -243,17 +292,17 @@
   // Full-screen gift video always fills the screen by its long side (object-fit: cover).
   function miniPhone() {
     const node = el("div", "gc-devices gc-mini");
-    node.dataset.fit = "cover";
     node.append(document.querySelector(".gc-phone").cloneNode(true));
     const video = node.querySelector(".gc-fx-v");
     const names = [...node.querySelectorAll(".gc-gift-name")];
-    let run = 0, visible = false, gift = null, timers = [];
+    let run = 0, visible = false, gift = null, timers = [], audio = null;
     const later = (fn, ms) => timers.push(setTimeout(fn, ms));
 
     function loop() {
       const id = ++run;
       timers.forEach(clearTimeout);
       timers = [];
+      audio = sound.stop(audio);
       node.classList.remove("playing", "arrived");
       video.classList.remove("on");
       video.pause();
@@ -271,7 +320,11 @@
       later(() => {
         node.classList.add("playing");
         video.currentTime = 0;
-        video.play().then(() => id === run && video.classList.add("on")).catch(() => {});
+        video.play().then(() => {
+          if (id !== run) return;
+          video.classList.add("on");
+          audio = sound.play(gift.sound);
+        }).catch(() => {});
       }, 1300);
       video.onended = () => {
         if (id !== run) return;
@@ -291,7 +344,7 @@
 
   /* ---------------- Showcase: laptop + phone, the gift arriving over a dating chat ---------------- */
 
-  // Which gifts play here and how they fit the screen live in showcase.json.
+  // Which gifts play here live in showcase.json. Every screen is filled by its long side.
   // Open the page with ?pick to choose them visually (the choice is kept in this browser
   // and can be copied or downloaded as a new showcase.json).
   const PICK_MODE = new URLSearchParams(location.search).has("pick");
@@ -310,17 +363,16 @@
     const byKey = new Map(animated.map((g) => [g.key, g]));
     const videos = [...$devices.querySelectorAll(".gc-fx-v")];
     const names = [...$devices.querySelectorAll(".gc-gift-name")];
-    let gifts = [], chips = [], index = 0, run = 0, visible = false, timers = [];
+    let gifts = [], chips = [], index = 0, run = 0, visible = false, timers = [], audio = null;
 
     hires = new Set(config.hires || []);
-    let state = { gifts: config.gifts || [], fit: config.fit || "mixed" };
+    let state = { gifts: config.gifts || [] };
     if (PICK_MODE) {
       try { state = { ...state, ...JSON.parse(store.get(PICK_KEY)) }; } catch {}
     }
 
     function apply(save) {
       if (save) store.set(PICK_KEY, JSON.stringify(state));
-      $devices.dataset.fit = state.fit;
       gifts = state.gifts.map((k) => byKey.get(k)).filter(Boolean);
       if (!gifts.length) gifts = animated.slice(0, 6);
       chips = gifts.map((g, i) => {
@@ -341,6 +393,7 @@
       timers.forEach(clearTimeout);
       timers = [];
       $devices.classList.remove("playing", "arrived");
+      audio = sound.stop(audio);
       for (const v of videos) { v.classList.remove("on"); v.pause(); }
     }
 
@@ -371,7 +424,9 @@
         if (id !== run) return;
         $devices.classList.add("playing");
         Promise.all(videos.map((v) => { v.currentTime = 0; return v.play().catch(() => {}); })).then(() => {
-          if (id === run) videos.forEach((v) => v.classList.add("on"));
+          if (id !== run) return;
+          videos.forEach((v) => v.classList.add("on"));
+          audio = sound.play(gift.sound);
         });
         const upcoming = gifts[(index + 1) % gifts.length];
         if (upcoming !== gift) fetch(srcFor(upcoming)).catch(() => {}); // warm the cache
@@ -418,11 +473,6 @@
             <p class="gc-picker-hint">Нажимайте подарки в том порядке, в каком они должны идти. Повторное нажатие убирает. Выбор сразу играет в мокапах и сохраняется в этом браузере.</p>
           </div>
           <div class="gc-picker-tools">
-            <span class="gc-picker-fit">
-              <button class="chip" type="button" data-fit="mixed">Телефон по длинной, ноутбук целиком</button>
-              <button class="chip" type="button" data-fit="cover">Везде по длинной</button>
-              <button class="chip" type="button" data-fit="contain">Везде целиком</button>
-            </span>
             <button class="btn ghost small" type="button" data-act="reset">Как в showcase.json</button>
             <button class="btn ghost small" type="button" data-act="copy">Скопировать JSON</button>
             <button class="btn small" type="button" data-act="download">Скачать showcase.json</button>
@@ -450,14 +500,9 @@
         grid.append(b);
         return b;
       });
-      box.querySelectorAll("[data-fit]").forEach((b) => b.addEventListener("click", () => {
-        state.fit = b.dataset.fit;
-        apply(true);
-        sync();
-      }));
-      const json = () => JSON.stringify({ gifts: gifts.map((g) => g.key), fit: state.fit, hires: [...hires] }, null, 1) + "\n";
+      const json = () => JSON.stringify({ gifts: gifts.map((g) => g.key), hires: [...hires] }, null, 1) + "\n";
       box.querySelector("[data-act=reset]").addEventListener("click", () => {
-        state = { gifts: [...(config.gifts || [])], fit: config.fit || "mixed" };
+        state = { gifts: [...(config.gifts || [])] };
         store.set(PICK_KEY, "");
         apply(false);
         sync();
@@ -479,7 +524,6 @@
           b.classList.toggle("on", n >= 0);
           b.querySelector("i").textContent = n >= 0 ? n + 1 : "";
         });
-        box.querySelectorAll("[data-fit]").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.fit === state.fit)));
       }
       sync();
     }
@@ -527,7 +571,7 @@
   }
 
   function attachHoverPreview(btn, media, gift) {
-    let preview = null;
+    let preview = null, audio = null;
     btn.addEventListener("mouseenter", () => {
       if (!canHover.matches || reducedMotion.matches || preview) return;
       if (isWebKit) {
@@ -545,6 +589,7 @@
     });
     btn.addEventListener("mouseleave", () => {
       if (!preview) return;
+      audio = sound.stop(audio);
       if (preview.pause) preview.pause();
       preview.remove();
       preview = null;
@@ -553,6 +598,7 @@
     function show(node) {
       if (node !== preview) return;
       node.classList.add("on");
+      audio = sound.play(gift.sound);
       media.classList.add("previewing");
     }
   }
@@ -567,7 +613,6 @@
     cleanupMedia();
     current = { audio: null, timer: 0, returnFocus };
 
-    $caption.textContent = gift.name;
     $sentName.textContent = gift.name;
     $stage.replaceChildren($spinner);
     $overlay.hidden = false;
@@ -590,8 +635,8 @@
     const startAudio = () => {
       if (id !== session) return;
       audio.currentTime = 0;
-      audio.muted = false;
       audio.volume = 1;
+      sound.track(audio);
       audio.play().catch(() => {});
     };
 
