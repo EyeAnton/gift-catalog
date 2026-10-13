@@ -1,37 +1,30 @@
-# Gift Catalog
+# Gift Catalog — data and media of the Virtual Gifts case
 
-Catalog of animated virtual gifts — a section of Anton's portfolio (https://eyeanton.github.io/),
-served at https://eyeanton.github.io/gift-catalog/ and linked from the "Virtual Gifts" project card.
-Shares the portfolio header and RU/EN setting (`localStorage.lang`, same origin).
+The case page now lives in the portfolio: https://eyeanton.github.io/project.html?id=virtual-gifts
+(blocks in `projects.json` of EyeAnton.github.io, edited in its admin; the interactive parts are `gifts.js` / `gifts.css` there).
+The old address https://eyeanton.github.io/gift-catalog/ redirects to it (`index.html`).
 
-- One grid of 56 gifts in `gifts.json` order (wedding and symbols mixed in on purpose — it is one catalog), English names, plain card background.
-- Loading skeleton: each gift's real SVG silhouette (`silhouettes.json`) with a shimmer, cross-fading to the still.
-- Click a gift: full-screen overlay "as if sent in a chat" — dimmed chat behind, the animation with sound, closes itself when it ends (Esc / click also close).
-- Desktop hover plays a small preview.
-
-Plain HTML/CSS/JS, no build step. Data comes from `gifts.json`.
-
-## Run locally
-
-```sh
-python3 -m http.server 8000
-# open http://localhost:8000
-```
-
-## Media
+This repo keeps only what that page loads from `/gift-catalog/` (GitHub Pages, root of `main`).
+**Don't rename or move these files** — the portfolio refers to them by path.
 
 | Path | What |
 |---|---|
+| `gifts.json` | the 56 gifts in catalog order: key, English name, media paths |
+| `silhouettes.json` | each gift's SVG silhouette — the shimmering skeleton while the still loads |
+| `process.json` | "one gift, five steps": brief (RU/EN), drafts, key frames per gift |
 | `assets/thumbs/<key>.webp` | stills, ≤360px, transparent, trimmed (match silhouettes) |
 | `assets/anim/<key>.webm` | 320px VP9 alpha card preview (Chrome, Firefox) |
 | `assets/anim/<key>.webp` | 320px animated WebP alpha — Safari/iOS (WebKit drops VP9 alpha) |
 | `assets/anim640/<key>.webm` | 640px VP9 alpha full-screen animation (Chrome, Firefox) |
 | `assets/anim640/<key>.mov` | 640px HEVC alpha full-screen animation — Safari/iOS |
 | `assets/anim640/<key>.mp3` | gift sound |
+| `assets/process/<key>/` | working frames from Figma for `process.json` |
 
 The 9 symbols have no animation; the overlay shows the still, slightly scaled up.
-
 Source originals (`_raw`, 2.7 GB) are **not** in this repo.
+
+Which gifts play in the laptop + phone mockups is now a field of the block "Подарки: ноутбук и телефон" in the admin
+(keys from `gifts.json`); `showcase.json` is kept only as the record of the original choice.
 
 ### Re-encoding
 
@@ -50,18 +43,7 @@ ffmpeg -c:v libvpx-vp9 -i movie-webm.webm -vf "fps=20,scale=640:-1:flags=lanczos
 New gifts: add an entry to `gifts.json` and a silhouette to `silhouettes.json`
 (alpha → threshold 40 → `findContours(RETR_CCOMP)` → `approxPolyDP(0.7)` → path on a 120px grid).
 
-## Showcase mockups
-
-The laptop + phone block plays the gifts listed in `showcase.json`:
-
-- `gifts` — keys in play order; `fit` — `mixed` (phone fills by its long side, laptop shows the whole square), `cover` or `contain`;
-  `hires` — keys that also have 1080px files in `assets/anim1080/`.
-- Open the page with `?pick` to choose and order gifts visually; the choice stays in that browser
-  and can be copied or downloaded as a new `showcase.json`.
-- The 640px files go soft when stretched over the laptop screen. On the Mac with the originals:
-  `tools/encode_showcase.sh ~/Downloads/Portfolio_cases/01_Gift_Catalog/_raw` encodes every showcase gift
-  to 1080px VP9 alpha + HEVC alpha and adds it to `hires` (switch `fit` to `cover` after that if wanted).
-
-## Deploy
-
-Static site — GitHub Pages (root of `main`) or Cloudflare Pages (no build command, output dir `/`).
+The 640px files go soft when stretched over the laptop screen. On the Mac with the originals,
+`tools/encode_showcase.sh ~/Downloads/Portfolio_cases/01_Gift_Catalog/_raw` encodes the showcase gifts
+to 1080px VP9 alpha + HEVC alpha in `assets/anim1080/`; then list those keys in the admin field
+"Подарки с файлами 1080px" of the mockups block.
