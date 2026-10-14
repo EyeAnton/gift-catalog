@@ -207,6 +207,384 @@
      "picked": true
     }
    ]
+  },
+  {
+   "key": "sep__crown_ai_3d",
+   "idea": {
+    "ru": "Корона на подушке вращается и блестит.",
+    "en": "A crown on a cushion turns and sparkles."
+   },
+   "frames": [
+    "k1.webp",
+    "k2.webp",
+    "k3.webp"
+   ],
+   "drafts": [
+    {
+     "src": "d1.webp",
+     "picked": true
+    },
+    {
+     "src": "d2.webp",
+     "picked": true
+    },
+    {
+     "src": "d3.webp",
+     "picked": true
+    }
+   ]
+  },
+  {
+   "key": "sep__honey_ai_3d",
+   "idea": {
+    "ru": "Наливаем мёд, закрываем банку, пролетает пчёлка.",
+    "en": "Honey pours in, the jar closes, a little bee flies by."
+   },
+   "frames": [
+    "k1.webp",
+    "k2.webp",
+    "k3.webp",
+    "k4.webp"
+   ],
+   "drafts": [
+    {
+     "src": "d1.webp",
+     "picked": false
+    },
+    {
+     "src": "d2.webp",
+     "picked": false
+    },
+    {
+     "src": "d3.webp",
+     "picked": false
+    },
+    {
+     "src": "d4.webp",
+     "picked": false
+    },
+    {
+     "src": "d5.webp",
+     "picked": false
+    },
+    {
+     "src": "d6.webp",
+     "picked": false
+    }
+   ]
+  },
+  {
+   "key": "sep__trumpet_bon_3d",
+   "idea": {
+    "ru": "Саксофон играет, выпускает ноты и сердечки.",
+    "en": "The saxophone plays, releasing notes and hearts."
+   },
+   "frames": [
+    "k1.webp",
+    "k2.webp",
+    "k3.webp"
+   ],
+   "drafts": [
+    {
+     "src": "d1.webp",
+     "picked": true
+    },
+    {
+     "src": "d2.webp",
+     "picked": false
+    },
+    {
+     "src": "d3.webp",
+     "picked": true
+    },
+    {
+     "src": "d4.webp",
+     "picked": false
+    },
+    {
+     "src": "d5.webp",
+     "picked": false
+    }
+   ]
+  },
+  {
+   "key": "sep__delicious_lollipop_colored_3d",
+   "idea": {
+    "ru": "Леденец вращается и немного приближается к камере, вокруг — карамельки по всему кадру.",
+    "en": "The lollipop turns and comes closer; candies fill the frame around it."
+   },
+   "frames": [
+    "k1.webp",
+    "k2.webp"
+   ],
+   "drafts": [
+    {
+     "src": "d1.webp",
+     "picked": false
+    },
+    {
+     "src": "d2.webp",
+     "picked": true
+    },
+    {
+     "src": "d3.webp",
+     "picked": true
+    },
+    {
+     "src": "d4.webp",
+     "picked": false
+    }
+   ]
+  },
+  {
+   "key": "sep__diamond_3d",
+   "idea": {
+    "ru": "Бриллиант вращается и блестит, вокруг много блестящих страз.",
+    "en": "The diamond turns and sparkles among glittering rhinestones."
+   },
+   "frames": [
+    "k1.webp",
+    "k2.webp",
+    "k3.webp",
+    "k4.webp"
+   ],
+   "drafts": [
+    {
+     "src": "d1.webp",
+     "picked": true
+    },
+    {
+     "src": "d2.webp",
+     "picked": true
+    },
+    {
+     "src": "d3.webp",
+     "picked": true
+    },
+    {
+     "src": "d4.webp",
+     "picked": true
+    }
+   ]
+  },
+  {
+   "key": "sym__shield",
+   "idea": {
+    "ru": "Эмблема из простой превращается в украшенную. Вокруг щита — розовый ореол магической защиты.",
+    "en": "A plain emblem turns ornate; a pink halo of magic protection surrounds the shield."
+   },
+   "frames": [
+    "k1.webp",
+    "k2.webp",
+    "k3.webp",
+    "k4.webp"
+   ],
+   "drafts": [
+    {
+     "src": "d1.webp",
+     "picked": false
+    },
+    {
+     "src": "d2.webp",
+     "picked": true
+    },
+    {
+     "src": "d3.webp",
+     "picked": true
+    },
+    {
+     "src": "d4.webp",
+     "picked": true
+    },
+    {
+     "src": "d5.webp",
+     "picked": false
+    },
+    {
+     "src": "d6.webp",
+     "picked": true
+    }
+   ]
+  },
+  {
+   "key": "sep__male_ring_ai_3d",
+   "idea": {
+    "ru": "Кольцо в брутальной мужской коробочке: коробка открывается и показывает кольцо.",
+    "en": "A ring in a bold men's box: the box opens to show the ring."
+   },
+   "frames": [
+    "k1.webp",
+    "k2.webp",
+    "k3.webp"
+   ],
+   "drafts": [
+    {
+     "src": "d1.webp",
+     "picked": false
+    },
+    {
+     "src": "d2.webp",
+     "picked": false
+    },
+    {
+     "src": "d3.webp",
+     "picked": false
+    },
+    {
+     "src": "d4.webp",
+     "picked": false
+    },
+    {
+     "src": "d5.webp",
+     "picked": false
+    }
+   ]
+  },
+  {
+   "key": "sep__bear_airplane_3d",
+   "idea": {
+    "ru": "Мишка-самолёт летит среди облаков, мило подмигивает в камеру и вылетает из кадра.",
+    "en": "A teddy plane flies through the clouds, winks at the camera and flies off."
+   },
+   "frames": [
+    "k1.webp",
+    "k2.webp"
+   ],
+   "drafts": [
+    {
+     "src": "d1.webp",
+     "picked": true
+    },
+    {
+     "src": "d2.webp",
+     "picked": true
+    },
+    {
+     "src": "d3.webp",
+     "picked": false
+    }
+   ]
+  },
+  {
+   "key": "sep__panda_with_heart_ai_3d",
+   "idea": {
+    "ru": "Милая панда нажимает лапкой на сердце; за ней плавно разгорается ореол в форме сердца.",
+    "en": "A cute panda presses a paw to its heart; a heart-shaped halo glows behind it."
+   },
+   "frames": [
+    "k1.webp",
+    "k2.webp",
+    "k3.webp"
+   ],
+   "drafts": [
+    {
+     "src": "d1.webp",
+     "picked": true
+    }
+   ]
+  },
+  {
+   "key": "sep__carriage_bon_3d",
+   "idea": {
+    "ru": "Карета пролетает по воздуху, оставляя шлейф из сердечек.",
+    "en": "The carriage flies through the air, leaving a trail of hearts."
+   },
+   "frames": [
+    "k1.webp",
+    "k2.webp"
+   ],
+   "drafts": [
+    {
+     "src": "d1.webp",
+     "picked": true
+    },
+    {
+     "src": "d2.webp",
+     "picked": false
+    },
+    {
+     "src": "d3.webp",
+     "picked": false
+    },
+    {
+     "src": "d4.webp",
+     "picked": false
+    },
+    {
+     "src": "d5.webp",
+     "picked": true
+    }
+   ]
+  },
+  {
+   "key": "sep__table_gift_3d",
+   "idea": {
+    "ru": "Свечение плавно переливается по сердцу, вокруг — неоновые звёздочки и сердечки на весь кадр.",
+    "en": "A glow shimmers across the heart; neon stars and hearts fill the frame."
+   },
+   "frames": [
+    "k1.webp",
+    "k2.webp"
+   ],
+   "drafts": [
+    {
+     "src": "d1.webp",
+     "picked": true
+    },
+    {
+     "src": "d2.webp",
+     "picked": false
+    },
+    {
+     "src": "d3.webp",
+     "picked": false
+    },
+    {
+     "src": "d4.webp",
+     "picked": false
+    },
+    {
+     "src": "d5.webp",
+     "picked": false
+    },
+    {
+     "src": "d6.webp",
+     "picked": true
+    }
+   ]
+  },
+  {
+   "key": "sep__roses2_bon_3d",
+   "idea": {
+    "ru": "Собираем букет: сначала в кадре появляется охапка цветов, потом её оборачивают бумагой.",
+    "en": "Putting a bouquet together: an armful of flowers appears, then gets wrapped in paper."
+   },
+   "frames": [
+    "k1.webp",
+    "k2.webp"
+   ],
+   "drafts": [
+    {
+     "src": "d1.webp",
+     "picked": true
+    },
+    {
+     "src": "d2.webp",
+     "picked": true
+    },
+    {
+     "src": "d3.webp",
+     "picked": false
+    },
+    {
+     "src": "d4.webp",
+     "picked": false
+    },
+    {
+     "src": "d5.webp",
+     "picked": false
+    }
+   ]
   }
  ]
 }

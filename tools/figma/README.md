@@ -23,3 +23,15 @@ python tools/figma/curate.py . <repo>
 Layer names on the September pages 2–3 were copied around and don't match the gift —
 identify rows by the brief text (`needle` in `PICK`), not by name. RU briefs are tidied by hand
 in `process.json` after step 5 (the Figma text is a rough working note).
+
+**Careful: `curate.py` wipes `assets/process/` and rewrites `process.json` from scratch** (the hand-tidied
+briefs are lost). To add gifts on top of the existing ones use `addproc.py` instead — it only appends
+gifts that aren't in `process.json` yet (keyframes = SELECTED row, up to 4; drafts = DRAFTS row, up to 9;
+a draft that is also in SELECTED is marked `picked`; per-gift drafts can be dropped by index):
+
+```sh
+python tools/figma/addproc.py . <repo> sheet   # newproc.jpg next to the script: check every row by eye
+python tools/figma/addproc.py . <repo> write
+```
+
+Which gifts the case page shows in its steps tabs is chosen in the portfolio admin (block «Подарки: пять шагов»).
