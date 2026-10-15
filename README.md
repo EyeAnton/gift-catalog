@@ -47,3 +47,7 @@ The 640px files go soft when stretched over the laptop screen. On the Mac with t
 `tools/encode_showcase.sh ~/Downloads/Portfolio_cases/01_Gift_Catalog/_raw` encodes the showcase gifts
 to 1080px VP9 alpha + HEVC alpha in `assets/anim1080/`; then list those keys in the admin field
 "Подарки с файлами 1080px" of the mockups block.
+
+## Громкость звуков
+
+Все `assets/anim640/*.mp3` выровнены до **−37 LUFS** (средняя громкость, EBU R128), только усилением, без компрессии. Новый звук: `python tools/normalize_sound.py` (нужен ffmpeg или `pip install imageio-ffmpeg`), проверка без записи — `--check`.
