@@ -32,9 +32,11 @@ def measure(ff, path):
     out = subprocess.run([ff, "-hide_banner", "-nostats", "-i", path, "-af", "ebur128=peak=true", "-f", "null", "-"],
                          capture_output=True, text=True, encoding="utf-8", errors="replace").stderr
     summary = out[out.rfind("Summary:"):]
-    lufs = float(re.search(r"I:\s*(-?[\d.]+) LUFS", summary).group(1))
-    peak = float(re.search(r"Peak:\s*(-?[\d.]+|-inf) dBFS", summary).group(1))
-    return lufs, peak
+    i = re.search(r"I:\s*(-?[\d.]+) LUFS", summary)
+    p = re.search(r"Peak:\s*(-?[\d.]+|-inf) dBFS", summary)
+    if not (i and p):  # ffmpeg couldn't read the file: no summary
+        return None
+    return float(i.group(1)), float(p.group(1))
 
 
 def main():
@@ -48,10 +50,14 @@ def main():
     files = a.files or sorted(glob.glob(os.path.join(root, "assets", "anim640", "*.mp3")))
     changed = 0
     for f in files:
-        lufs, peak = measure(ff, f)
+        name = os.path.basename(f)
+        m = measure(ff, f)
+        if m is None:
+            print(f"  skip {name:40s} ffmpeg could not measure it")
+            continue
+        lufs, peak = m
         gain = TARGET - lufs
         gain = min(gain, MAX_PEAK - peak)  # a boost must not clip
-        name = os.path.basename(f)
         if abs(gain) < TOL:
             print(f"  ok   {name:40s} {lufs:6.1f} LUFS")
             continue
