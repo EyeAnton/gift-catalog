@@ -1,0 +1,6 @@
+# Only for the maintenance tools; the site itself is static and needs nothing.
+# tools/check.py — stdlib only.
+pillow>=10.0          # tools/figma/*.py (frames, contact sheets)
+zstandard>=0.22       # tools/figma/figtree.py (decode .fig canvas)
+imageio-ffmpeg>=0.5   # tools/normalize_sound.py, only when ffmpeg is not on PATH
+# also external: ffmpeg with libvpx-vp9 (re-encoding), Xcode swiftc (tools/hevc_alpha.swift, macOS)

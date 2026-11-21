@@ -1,3 +1,21 @@
 .DS_Store
 _raw/
 node_modules/
+
+# local tooling
+.claude/
+__pycache__/
+*.pyc
+.venv/
+.env
+.env.*
+
+# Figma working file and its extracts (internal work, see tools/figma/README.md)
+*.fig
+fig_x/
+figtree.json
+proc[0-9].json
+tools/figma/newproc.jpg
+
+# editor/atomic-save temp copies next to media (e.g. "x.mov.sb-29025668-AbCdEf")
+*.sb-*
